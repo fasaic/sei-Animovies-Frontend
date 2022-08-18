@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 // * This will use dynamic data once the APIs are working, but until then I will hard code data for testing*
 const MovieCard = () => {
   return (
+
+    // const navigateMovieSingle = () => {
+    //   // this navigates to the movie single page
+    //   navigate('/search')
+    // }
     
     <div id="card-container">
       <div id="card-poster">
