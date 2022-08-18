@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.site-wrapper{
+  display:flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.51), rgba(255, 255, 255, 0.51)), url(../assets/background.jpg);
+  transform: rotate(-0.11deg);
+  background-repeat: none;
+  background-size: cover;
+
+}
+
+
