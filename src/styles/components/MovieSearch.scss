@@ -1,0 +1,22 @@
+.search-wrapper{
+  margin-top: 50px;
+  justify-content: center;
+  text-align: center;
+  img{
+    max-height: 200px;
+  }
+  p{
+    margin: 0px;
+    font-weight: bold;
+    ul {
+      margin: 0px;
+    }
+    span, li {
+      font-weight: normal;
+    }
+  }
+  .content{
+    margin-top: 30px;
+    text-align: left;
+  }
+}
