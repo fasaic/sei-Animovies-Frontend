@@ -10,7 +10,7 @@ const MovieSearch = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get("mongodb+srv://root:YWKSv3PYCaq6DmU4@cluster0.lj0elay.mongodb.net/animovies?retryWrites=true&w=majority/movies")
+        const { data } = await axios.get("http://localhost:4000/movies")
         setMovies(data);
         console.log(data)
       } catch(error) {
