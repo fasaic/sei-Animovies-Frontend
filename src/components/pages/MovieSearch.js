@@ -39,7 +39,10 @@ const MovieSearch = () => {
         {movies.map(movie => {
           return <>
             <div className='d-flex justify-content-around align-items-center'>
-              <img src={movie.posterImg} alt='poster' className='w-1' />
+              <Link to={`/movies/${movie._id}`} >
+                <img src={movie.posterImg} alt='poster' className='w-1' />
+                </Link>
+              
               <div className='content' key={movie._id}>
                 <p>Name: <span>{movie.name}</span></p>
                 <p>Description: <span>{movie.description}</span></p>
