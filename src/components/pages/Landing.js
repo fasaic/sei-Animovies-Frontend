@@ -11,6 +11,7 @@ const Landing = () => {
     <h1>Landing Page</h1>
     <Link to="/search">Movie Search Page</Link>
     {/* <MovieCard /> */}
+    <div></div>
     </>
   )
 }
