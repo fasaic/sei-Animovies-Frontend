@@ -22,7 +22,8 @@ const App = () => {
           <Route path="/movies/:movieId" element={<MovieSingle />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile/:userId" element={<UserProfile />} />
+          {/* When working can add in the /:userId */}
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
