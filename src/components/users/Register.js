@@ -41,7 +41,7 @@ const Register = () => {
         formData
       )
       setTokenToLocalStorage(data.token)
-      navigate('/')
+      navigate('/login')
       console.log(formData)
     } catch (error) {
       console.log('error ->', error.response.data.errors)
