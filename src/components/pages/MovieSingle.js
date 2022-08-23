@@ -4,14 +4,13 @@ import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 import YoutubeEmbed from '../YoutubeEmbed'
+import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
 // Bootstrap Components
 import { CDBRating, CDBContainer } from 'cdbreact'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
-// import 'swiper/scss';
-// import 'swiper/scss/navigation';
-// import 'swiper/scss/pagination';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -19,10 +18,12 @@ import 'swiper/css/scrollbar';
 
 import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
+
 import Row from 'react-bootstrap/Row'
 SwiperCore.use([Navigation, Pagination, Scrollbar])
 const MovieSingle = () => {
   const { movieId } = useParams()
+  
   const [movie, setMovie] = useState([])
   const [directors, setDirectors] = useState([])
   const [cast, setCast] = useState([])
@@ -30,6 +31,7 @@ const MovieSingle = () => {
   const [comments, setComments] = useState([])
   const [stills, setStills] = useState('')
   const [error, setError] = useState('')
+  const [formData, setFormData] = useState([])
 
   useEffect(() => {
     const getData = async () => {
@@ -41,7 +43,7 @@ const MovieSingle = () => {
         setCast(data.cast)
         setTags(data.tags)
         setComments(data.comments)
-        console.log(data)
+        // console.log(data)
       } catch (error) {
         setError(error)
         console.log(error)
@@ -50,8 +52,40 @@ const MovieSingle = () => {
     getData()
   }, [])
 
+  const headers = () => {
+    const token = getToken().split(' ')[1]
+    return {
+      headers: { Authorization: `Bearer ${getToken()}`}
+      // headers: { Authorization: `Bearer ${token}`}
+      
 
-  console.log(movie)
+    }
+  }
+  
+  const handleAddComment = async (event) => {
+    // event.preventDefault()
+    try {
+      console.log(getToken())
+      console.log('form data -->', formData)
+      const { data } = await axios.post(`http://localhost:4000/${movieId}/comment`, formData, headers())
+      // console.log('form data -->', formData)
+      setMovie(data)
+      setFormData({ text: ''})
+      
+    } catch (e) {
+      setError(e)
+      console.log(error)
+    }
+    }
+
+
+
+    const handleChange = async (event) => {
+      setFormData ({ ...formData, [event.target.name]: event.target.value})
+    }
+
+  
+
   return (
     <div className='movie-single-wrapper text-center'>
       <Carousel fade >
@@ -149,16 +183,14 @@ const MovieSingle = () => {
         {/* COMMENTS SECTION */}
         <Row className='comment-wrapper'>
           <div className='create-comment'>
-            <form className='d-flex flex-column align-center'>
+            <form className='d-flex flex-column align-center' onSubmit={handleAddComment}>
               <h3>Comments</h3>
               <CDBRating iconFaces fillClassName="text-black" iconRegular />
-              <textarea name="comment">What did you think about this movie?</textarea>
-              {/* <input type="text" name="comment" placeholder='What did you think about this movie?'  /> */}
+              <textarea name="text" placeholder='What do you think about this movie?' onChange={handleChange}>{formData.text}</textarea>
               <input type="submit" value="Add Comment" />
             </form>
           </div>
           <div className='previous-comments'>
-
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -167,66 +199,51 @@ const MovieSingle = () => {
               // navigation
               // pagination={{ clickable: true }}
               scrollbar={{ draggable: true }}
-              onSwiper={(swiper) => console.log(swiper)}
-              onSlideChange={() => console.log('slide change')}
+              // onSwiper={(swiper) => console.log(swiper)}
+              // onSlideChange={() => console.log('slide change')}
             >
-
-              <SwiperSlide>
-                <div className='comment-box text-center'>
-                  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940418.png?token=exp=1661093836~hmac=2b35e831dfef9f3cf8fbe4a3baffcbc5" alt="profile" />
-                  <p>User1</p>
-                  {/* <CDBContainer > */}
-                  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-                  {/* </CDBContainer> */}
-                  <span className='mt-1'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-                </div>
-              </SwiperSlide>
-
               {comments.map(comment => {
-                return <SwiperSlide>
+                return <SwiperSlide key={comment._id}>
                   <div className='comment-box'>
                     <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-                    <p>user</p>
+                    <p>{comment.userName}</p>
                     <p>rating</p>
                     <CDBRating iconFaces fillClassName="text-warning" iconRegular />
                     <span>{comment.text}</span>
                   </div>
                 </SwiperSlide>
               })}
-
-
-              <SwiperSlide>
-                <div className='comment-box'>
-                  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-                  <p>User2</p>
-                  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className='comment-box'>
-                  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940417.png?token=exp=1661093836~hmac=dd1a5f3d7c7cb1933fca64033a4f6174" alt="profile" />
-                  <p>User3</p>
-                  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-                </div>
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className='comment-box'>
-                  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940433.png?token=exp=1661093836~hmac=eead3a5f4749d0f14dada1688a26ca7d" alt="profile" />
-                  <p>User4</p>
-                  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-                </div>
-              </SwiperSlide>
             </Swiper>
           </div>
         </Row>
-
-
       </Container>
     </div>
   )
 }
 
 export default MovieSingle
+
+{/* <SwiperSlide>
+<div className='comment-box'>
+  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
+  <p>User2</p>
+  <CDBRating iconFaces fillClassName="text-black" iconRegular />
+  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
+</div>
+</SwiperSlide>
+<SwiperSlide>
+<div className='comment-box'>
+  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940417.png?token=exp=1661093836~hmac=dd1a5f3d7c7cb1933fca64033a4f6174" alt="profile" />
+  <p>User3</p>
+  <CDBRating iconFaces fillClassName="text-black" iconRegular />
+  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
+</div>
+</SwiperSlide>
+<SwiperSlide>
+<div className='comment-box'>
+  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940433.png?token=exp=1661093836~hmac=eead3a5f4749d0f14dada1688a26ca7d" alt="profile" />
+  <p>User4</p>
+  <CDBRating iconFaces fillClassName="text-black" iconRegular />
+  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
+</div>
+</SwiperSlide> */}
