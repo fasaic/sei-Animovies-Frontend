@@ -9,6 +9,7 @@ import PageNavBar from "./components/PageNavBar"
 import Login from "./components/users/Login"
 import Register from "./components/users/Register"
 import UserProfile from "./components/users/UserProfile"
+import Ratings from "./components/Ratings"
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           {/* When working can add in the /:userId */}
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/ratings" element={<Ratings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

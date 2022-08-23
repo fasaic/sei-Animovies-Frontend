@@ -1,24 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-
+import { Rating } from 'react-simple-star-rating'
 import axios from 'axios'
 
 import YoutubeEmbed from '../YoutubeEmbed'
+import StarRating from '../Ratings'
 import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
-// Bootstrap Components
-import { CDBRating, CDBContainer } from 'cdbreact'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
+// Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
-
 import Row from 'react-bootstrap/Row'
 SwiperCore.use([Navigation, Pagination, Scrollbar])
 const MovieSingle = () => {
@@ -32,6 +30,9 @@ const MovieSingle = () => {
   const [stills, setStills] = useState('')
   const [error, setError] = useState('')
   const [formData, setFormData] = useState([])
+
+  const [ addRating, setAddRating] = useState(0)
+  const [hover, setHover] = useState(0)
 
   useEffect(() => {
     const getData = async () => {
@@ -70,7 +71,8 @@ const MovieSingle = () => {
       const { data } = await axios.post(`http://localhost:4000/${movieId}/comment`, formData, headers())
       // console.log('form data -->', formData)
       setMovie(data)
-      setFormData({ text: ''})
+      setFormData({ text: '', rating: ''})
+      // window.location.reload()
       
     } catch (e) {
       setError(e)
@@ -82,6 +84,11 @@ const MovieSingle = () => {
 
     const handleChange = async (event) => {
       setFormData ({ ...formData, [event.target.name]: event.target.value})
+    }
+
+    const handleRating = (rating) => {
+      setFormData({ ...formData, rating })
+  
     }
 
   
@@ -185,7 +192,9 @@ const MovieSingle = () => {
           <div className='create-comment'>
             <form className='d-flex flex-column align-center' onSubmit={handleAddComment}>
               <h3>Comments</h3>
-              <CDBRating iconFaces fillClassName="text-black" iconRegular />
+              <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /* Rating Props */ />
+              {/* <StarRating addRating={addRating} setAddRating={setAddRating} setHover={setHover} hover={hover} formData={formData} setFormData={setFormData}/> */}
+              {/* <CDBRating iconFaces fillClassName="text-black" iconRegular /> */}
               <textarea name="text" placeholder='What do you think about this movie?' onChange={handleChange}>{formData.text}</textarea>
               <input type="submit" value="Add Comment" />
             </form>
@@ -208,7 +217,7 @@ const MovieSingle = () => {
                     <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
                     <p>{comment.userName}</p>
                     <p>rating</p>
-                    <CDBRating iconFaces fillClassName="text-warning" iconRegular />
+                    <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={comment.rating} allowHover={false} /* Rating Props */ />
                     <span>{comment.text}</span>
                   </div>
                 </SwiperSlide>
