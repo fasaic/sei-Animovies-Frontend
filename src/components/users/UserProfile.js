@@ -106,32 +106,28 @@ const UserProfile = () => {
           </div>
           <div className="recommend">
             <div className="row">
-              {/* <div className="col">
+              <div className="col">
                 <h3>Recommended Movies</h3>
-                <div className='movie-single-wrapper text-center m-4'>
+                <div className="movie-single-wrapper text-center m-4">
                   <Carousel fade>
                     <Carousel.Item>
                       <h3> Image one </h3>
 
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
                       <h3> Image two </h3>
 
-
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
                       <h3> Image 3 </h3>
 
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                   </Carousel>
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
