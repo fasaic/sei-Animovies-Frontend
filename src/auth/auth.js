@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer'
 
+
 // Save token to local storage
 export const setToken = (token) => {
   window.localStorage.setItem('rcf-ani-token', token)
@@ -10,22 +11,19 @@ export const setToken = (token) => {
 export const getToken = () => {
   return window.localStorage.getItem('rcf-ani-token')
   console.log('get token')
-}
 
-// Verify token
-export const getPayLoad = () => {
+export const getPayload = () => {
   const token = getToken()
   if (!token) return
   const splitToken = token.split('.')
-  if (splitToken.length !== 3) return
+  if (splitToken.length < 3) return
   return JSON.parse(Buffer.from(splitToken[1], 'base64'))
 }
 
-// Validate user for length of payload exp
 export const userIsAuthenticated = () => {
-  const payload = getPayLoad()
+  const payload = getPayload()
   if (!payload) return
   const currentTime = Math.round(Date.now() / 1000)
-  console.log('Expiry date', payload.exp)
+  // console.log('Expiry date', payload.exp)
   return currentTime < payload.exp
 }

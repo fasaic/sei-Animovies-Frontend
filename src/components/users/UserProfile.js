@@ -6,15 +6,13 @@ import Row from 'react-bootstrap/Row'
 import Accordion from 'react-bootstrap/Accordion'
 import Carousel from 'react-bootstrap/Carousel'
 
-
-
 const UserProfile = () => {
-const userId = console.log('user')
+  const userId = console.log('user')
   // const { userId } = useParams()
   const [name, setName] = useState('')
-  const [userName, setUserName] = ('')
-  const [password, setPassword] = ('')
-  const [confirmPassword, setConfirmPassword] = ('')
+  const [userName, setUserName] = ''
+  const [password, setPassword] = ''
+  const [confirmPassword, setConfirmPassword] = ''
   const [favourites, setFavourites] = useState([])
 
   const [error, setError] = useState([])
@@ -37,7 +35,6 @@ const userId = console.log('user')
     }
     getData()
   }, [userId])
-    
 
   return (
     <Container className="profile-wrapper mb-5">
@@ -67,7 +64,12 @@ const userId = console.log('user')
             </div>
             <div className="col-lg-6 mt-4">
               <div className="about-avatar">
-                <img className="profile-avatar" src="https://i.pinimg.com/474x/ab/7f/8b/ab7f8b18534abf0842b01d8ec37f4f71--funny-shit-funny-stuff.jpg" title="" alt="" />
+                <img
+                  className="profile-avatar"
+                  src="https://i.pinimg.com/474x/ab/7f/8b/ab7f8b18534abf0842b01d8ec37f4f71--funny-shit-funny-stuff.jpg"
+                  title=""
+                  alt=""
+                />
               </div>
             </div>
           </div>
@@ -75,22 +77,26 @@ const userId = console.log('user')
             <div className="row">
               <div className="col">
                 <div className="count-data text-center">
-                  <h6 className="count h2 mt-4" data-to="150" data-speed="150">Previous Comments</h6>
+                  <h6 className="count h2 mt-4" data-to="150" data-speed="150">
+                    Previous Comments
+                  </h6>
                   <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>Comment #1</Accordion.Header>
                       <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi u
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi u
                       </Accordion.Body>
                     </Accordion.Item>
                     <Accordion.Item eventKey="1">
                       <Accordion.Header>Comment #2</Accordion.Header>
                       <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -102,26 +108,22 @@ const userId = console.log('user')
             <div className="row">
               <div className="col">
                 <h3>Recommended Movies</h3>
-                <div className='movie-single-wrapper text-center m-4'>
+                <div className="movie-single-wrapper text-center m-4">
                   <Carousel fade>
                     <Carousel.Item>
                       <h3> Image one </h3>
 
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
                       <h3> Image two </h3>
 
-
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
                       <h3> Image 3 </h3>
 
-                      <Carousel.Caption>
-                      </Carousel.Caption>
+                      <Carousel.Caption></Carousel.Caption>
                     </Carousel.Item>
                   </Carousel>
                 </div>
@@ -132,6 +134,6 @@ const userId = console.log('user')
       </section>
     </Container>
   )
-} 
+}
 
 export default UserProfile
