@@ -9,17 +9,17 @@ import Container from 'react-bootstrap/Container'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 const PageNavBar = () => {
 
-  const navigate = useNavigate()
-  const handleClick = (event) => {
-    console.log(event.target.value)
-    if (event.target.value !== ''){
-      navigate('/search')
-    } else {
-      navigate('/')
-    }
+  // const navigate = useNavigate()
+  // const handleClick = (event) => {
+  //   console.log(event.target.value)
+  //   if (event.target.value !== ''){
+  //     navigate('/search')
+  //   } else {
+  //     navigate('/')
+  //   }
    
 
-  }
+  // }
 
   return (
 
@@ -31,7 +31,7 @@ const PageNavBar = () => {
         <NavBar.Toggle aria-controls="basic-navbar-nav"></NavBar.Toggle>
         <NavBar.Collapse id="basic-navbar-nav" className="justify-content-end">
         <div className='search-container text-md-center text-end my-md-0 my-3'>
-          <input type="text" className="seach" placeholder="Search..." onKeyUp={handleClick}></input>
+          {/* <input type="text" className="seach" placeholder="Search..." onKeyUp={handleClick}></input> */}
         </div>
 
             <Nav.Link as={Link} to="/register" className=''><span className="underline">Register</span></Nav.Link>
