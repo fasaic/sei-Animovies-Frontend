@@ -11,6 +11,7 @@ export const setToken = (token) => {
 export const getToken = () => {
   return window.localStorage.getItem('rcf-ani-token')
   console.log('get token')
+}
 
 export const getPayload = () => {
   const token = getToken()

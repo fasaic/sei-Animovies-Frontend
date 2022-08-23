@@ -19,7 +19,7 @@ const PageNavBar = () => {
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('rcf-ani-token')
     navigate('/')
     console.log('USER HAS LOGGED OUT')
   }
@@ -49,7 +49,7 @@ const PageNavBar = () => {
                 <span className="underline">Profile</span>
               </Nav.Link>
               <Nav.Link onClick={handleLogout} as={Link} to="/">
-                <span className="underline">Logout</span>
+                <span className="underline ms-2">Logout</span>
               </Nav.Link>
             </>
           ) : (
