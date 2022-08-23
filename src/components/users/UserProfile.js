@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Accordion from 'react-bootstrap/Accordion'
 import Carousel from 'react-bootstrap/Carousel'
+import { getToken } from '../../auth/auth.js'
 
 const UserProfile = () => {
-  const userId = console.log('user')
+  // const userId = console.log('user')
   // const { userId } = useParams()
   const [name, setName] = useState('')
+  const [profile, setProfile] = useState({})
   const [userName, setUserName] = ''
   const [password, setPassword] = ''
   const [confirmPassword, setConfirmPassword] = ''
@@ -20,13 +22,18 @@ const UserProfile = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/user/${userId}`)
+        const { data } = await axios.get(`http://localhost:4000/profile`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        })
+        console.log(data)
+        setProfile(data)
         setName(data.name)
         setUserName(data.userName)
         setFavourites(data.favouriteMovieGenre)
         // These needs fixing because it won't work as password is hashed
         setPassword(data.password)
         setConfirmPassword(data.confirmPassword)
+
         console.log(data)
       } catch (error) {
         setError(error)
@@ -34,7 +41,7 @@ const UserProfile = () => {
       }
     }
     getData()
-  }, [userId])
+  }, [])
 
   return (
     <Container className="profile-wrapper mb-5">
@@ -47,16 +54,12 @@ const UserProfile = () => {
                 <div className="row about-list">
                   <div className="col">
                     <div className="media">
-                      <label>Name</label>
-                      <p>Woody</p>
-                    </div>
-                    <div className="media">
                       <label>Username</label>
-                      <p>Allen's Toy</p>
+                      <p>{profile.userName}</p>
                     </div>
                     <div className="media">
                       <label>E-mail</label>
-                      <p>fave@domain.com</p>
+                      <p>{profile.email}</p>
                     </div>
                   </div>
                 </div>
@@ -104,32 +107,32 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-          <div className="recommend">
-            <div className="row">
-              <div className="col">
-                <h3>Recommended Movies</h3>
-                <div className="movie-single-wrapper text-center m-4">
-                  <Carousel fade>
-                    <Carousel.Item>
-                      <h3> Image one </h3>
+          {/* <div className="recommend">
+              <div className="row">
+                <div className="col">
+                  <h3>Recommended Movies</h3>
+                  <div className="movie-single-wrapper text-center m-4">
+                    <Carousel fade>
+                      <Carousel.Item>
+                        <h3> Image one </h3>
 
-                      <Carousel.Caption></Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                      <h3> Image two </h3>
+                        <Carousel.Caption></Carousel.Caption>
+                      </Carousel.Item>
+                      <Carousel.Item>
+                        <h3> Image two </h3>
 
-                      <Carousel.Caption></Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                      <h3> Image 3 </h3>
+                        <Carousel.Caption></Carousel.Caption>
+                      </Carousel.Item>
+                      <Carousel.Item>
+                        <h3> Image 3 </h3>
 
-                      <Carousel.Caption></Carousel.Caption>
-                    </Carousel.Item>
-                  </Carousel>
+                        <Carousel.Caption></Carousel.Caption>
+                      </Carousel.Item>
+                    </Carousel>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> */}
         </div>
       </section>
     </Container>
