@@ -1,8 +1,16 @@
 import { Buffer } from 'buffer'
 
-export const getToken = () => {
-  return window.localStorage.getItem('token')
+
+// Save token to local storage
+export const setToken = (token) => {
+  window.localStorage.setItem('rcf-ani-token', token)
+  console.log('set token')
 }
+
+// Call token from storage
+export const getToken = () => {
+  return window.localStorage.getItem('rcf-ani-token')
+  console.log('get token')
 
 export const getPayload = () => {
   const token = getToken()
