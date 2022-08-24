@@ -8,11 +8,17 @@ import StarRating from '../Ratings'
 import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Mousewheel } from 'swiper'
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Mousewheel,
+} from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 
 // Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
@@ -22,7 +28,7 @@ import Col from 'react-bootstrap/Col'
 SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel])
 const MovieSingle = () => {
   const { movieId } = useParams()
-  
+
   const [movie, setMovie] = useState([])
   const [directors, setDirectors] = useState([])
   const [cast, setCast] = useState([])
@@ -32,13 +38,15 @@ const MovieSingle = () => {
   const [error, setError] = useState('')
   const [formData, setFormData] = useState([])
 
-  const [ addRating, setAddRating] = useState(0)
+  const [addRating, setAddRating] = useState(0)
   const [hover, setHover] = useState(0)
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/movies/${movieId}`)
+        const { data } = await axios.get(
+          `http://localhost:4000/movies/${movieId}`
+        )
         setMovie(data)
         setStills(data.stills)
         setDirectors(data.directors)
@@ -57,82 +65,65 @@ const MovieSingle = () => {
   const headers = () => {
     const token = getToken().split(' ')[1]
     return {
-      headers: { Authorization: `Bearer ${getToken()}`}
+      headers: { Authorization: `Bearer ${getToken()}` },
       // headers: { Authorization: `Bearer ${token}`}
-      
-
     }
   }
-  
+
   const handleAddComment = async (event) => {
     // event.preventDefault()
     try {
       console.log(getToken())
       console.log('form data -->', formData)
-      const { data } = await axios.post(`http://localhost:4000/${movieId}/comment`, formData, headers())
+      const { data } = await axios.post(
+        `http://localhost:4000/${movieId}/comment`,
+        formData,
+        headers()
+      )
       // console.log('form data -->', formData)
       setMovie(data)
-      setFormData({ text: '', rating: ''})
+      setFormData({ text: '', rating: '' })
       // window.location.reload()
-      
     } catch (e) {
       setError(e)
       console.log(error)
     }
-    }
+  }
 
+  const handleChange = async (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value })
+  }
 
-
-    const handleChange = async (event) => {
-      setFormData ({ ...formData, [event.target.name]: event.target.value})
-    }
-
-    const handleRating = (rating) => {
-      setFormData({ ...formData, rating })
-  
-    }
-
-  
+  const handleRating = (rating) => {
+    setFormData({ ...formData, rating })
+  }
 
   return (
-    <div className='movie-single-wrapper text-center'>
-      <Carousel fade >
+    <div className="movie-single-wrapper text-center">
+      <Carousel fade>
         <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={stills.img1}
-            alt="First slide"
-          />
+          <img className="d-block w-100" src={stills.img1} alt="First slide" />
         </Carousel.Item>
         <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={stills.img2}
-            alt="Second slide"
-          />
+          <img className="d-block w-100" src={stills.img2} alt="Second slide" />
         </Carousel.Item>
         <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={stills.img3}
-            alt="Third slide"
-          />
+          <img className="d-block w-100" src={stills.img3} alt="Third slide" />
         </Carousel.Item>
       </Carousel>
 
-
-      <Container className='content-wrapper'>
+      <Container className="content-wrapper">
         {/* INFO WRAPPER */}
-        <Row className='info-wrapper'>
-          <div className='title d-flex justify-content-between'>
+        <Row className="info-wrapper">
+          <div className="title d-flex justify-content-between">
             <h2>{movie.name}</h2>
-            <div className='d-flex rating-wrapper'>
-              <div className='text-center rating'>
-                <p className='m-0'>IMDB</p>
+            <div className="d-flex rating-wrapper">
+              <div className="text-center rating">
+                <p className="m-0">IMDB</p>
                 <p>{movie.imdbRating}</p>
               </div>
-              <div className='ms-4 text-center rating'>
-                <p className='m-0'>AMDB</p>
+              <div className="ms-4 text-center rating">
+                <p className="m-0">AMDB</p>
                 <p>{movie.avgUserRating}</p>
                 {/* <Rating emptyColor="white" fillColor="yellow" ratingValue={movie.avgRating} allowHover={false} /> */}
               </div>
@@ -141,8 +132,8 @@ const MovieSingle = () => {
           <hr />
 
           {/* MOVIE POSTER + TRAILERS */}
-          <div className='title-media mb-4 justify-content-center'>
-            <div className='poster'>
+          <div className="title-media mb-4 justify-content-center">
+            <div className="poster">
               <img src={movie.posterImg} alt="poster" />
             </div>
             <div className="youtube">
@@ -151,64 +142,89 @@ const MovieSingle = () => {
           </div>
           <hr />
           {/* <Row> */}
-            <div className='content d-flex' key={movie._id}>
-              <Row className='description'>
-                <p>Description:</p>
-                <span>{movie.description}</span>
-                <p>Production Company: </p>
-                <span>{movie.productionCompany}</span>
-                <p>Directors:
-                  <ul>
-                    {directors.map(director => {
-                      return <li> {director} </li>
-                    })}
-                  </ul>
-                </p>
-                <p>Cast:
-                  <ul>
-                    {cast.map(cast => {
-                      return <li> {cast} </li>
-                    })}
-                  </ul>
-                </p>
-              </Row>
-              <Row className='description-2'>
-                <p>Box Office: <span>{movie.boxOffice}</span></p>
-                <p>Budget: <span>{movie.budget}</span></p>
-                <p>Release Year: <span>{movie.releaseYear}</span></p>
-                <p>Run Time: <span>{movie.runtime}</span></p>
-                <p>Tags:
-                  <ul>
-                    {tags.map(tag => {
-                      return <li> {tag} </li>
-                    })}
-                  </ul>
-                </p>
-              </Row>
-            </div>
+          <div className="content d-flex" key={movie._id}>
+            <Row className="description">
+              <p>Description:</p>
+              <span>{movie.description}</span>
+              <p>Production Company: </p>
+              <span>{movie.productionCompany}</span>
+              <p>
+                Directors:
+                <ul>
+                  {directors.map((director) => {
+                    return <li> {director} </li>
+                  })}
+                </ul>
+              </p>
+              <p>
+                Cast:
+                <ul>
+                  {cast.map((cast) => {
+                    return <li> {cast} </li>
+                  })}
+                </ul>
+              </p>
+            </Row>
+            <Row className="description-2">
+              <p>
+                Box Office: <span>{movie.boxOffice}</span>
+              </p>
+              <p>
+                Budget: <span>{movie.budget}</span>
+              </p>
+              <p>
+                Release Year: <span>{movie.releaseYear}</span>
+              </p>
+              <p>
+                Run Time: <span>{movie.runtime}</span>
+              </p>
+              <p>
+                Tags:
+                <ul>
+                  {tags.map((tag) => {
+                    return <li> {tag} </li>
+                  })}
+                </ul>
+              </p>
+            </Row>
+          </div>
           {/* </Row> */}
         </Row>
 
         {/* COMMENTS SECTION */}
-        <Row className='comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center'>
-          <Col className='create-comment'>
-          <h3>Comments</h3>
-            <form className='d-flex flex-column justify-content-between' onSubmit={handleAddComment}>
-              
-              <div className='d-flex align-center rate-container'>
+        <Row className="comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center">
+          <Col className="create-comment">
+            <h3>Comments</h3>
+            <form
+              className="d-flex flex-column justify-content-between"
+              onSubmit={handleAddComment}
+            >
+              <div className="d-flex align-center rate-container">
                 <p>Rate</p>
-              {/* <label htmlFor="rate">Rate</label> */}
-              <Rating name='rate' onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /* Rating Props */ />
+                {/* <label htmlFor="rate">Rate</label> */}
+                <Rating
+                  name="rate"
+                  onClick={handleRating}
+                  emptyColor="white"
+                  fillColor="yellow"
+                  ratingValue={formData.rating} /* Rating Props */
+                />
               </div>
-              
+
               {/* <StarRating addRating={addRating} setAddRating={setAddRating} setHover={setHover} hover={hover} formData={formData} setFormData={setFormData}/> */}
               {/* <CDBRating iconFaces fillClassName="text-black" iconRegular /> */}
-              <textarea name="text" placeholder='What do you think about this movie?' onChange={handleChange}>{formData.text}</textarea>
+              <textarea
+                name="text"
+                placeholder="What do you think about this movie?"
+                onChange={handleChange}
+              >
+                {formData.text}
+              </textarea>
               <input type="submit" value="Add Comment" />
             </form>
           </Col>
 
-          <Col className='previous-comments'>
+          <Col className="previous-comments">
             <Swiper
               // install Swiper modules
               modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel]}
@@ -223,7 +239,7 @@ const MovieSingle = () => {
                 375: {
                   slidesPerView: 1,
                   spaceBetween: 20,
-                  scrollbar:{ draggable: true },
+                  scrollbar: { draggable: true },
                 },
                 768: {
                   slidesPerView: 2,
@@ -238,16 +254,28 @@ const MovieSingle = () => {
               onSwiper={(swiper) => console.log(swiper)}
               onSlideChange={() => console.log('slide change')}
             >
-              {comments.map(comment => {
-                return <SwiperSlide key={comment._id}>
-                  <div className='comment-box'>
-                    <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-                     <p>{comment.userName}</p>
-                    {/* <p className='mb-0 fs-'>rating</p> */}
-                    <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={comment.rating} allowHover={false} readonly={true} /* Rating Props */ />
-                    <span>{comment.text}</span>
-                  </div>
-                </SwiperSlide>
+              {comments.map((comment) => {
+                return (
+                  <SwiperSlide key={comment._id}>
+                    <div className="comment-box">
+                      <img
+                        src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6"
+                        alt="profile"
+                      />
+                      <p>{comment.userName}</p>
+                      {/* <p className='mb-0 fs-'>rating</p> */}
+                      <Rating
+                        onClick={handleRating}
+                        emptyColor="white"
+                        fillColor="yellow"
+                        ratingValue={comment.rating}
+                        allowHover={false}
+                        readonly={true} /* Rating Props */
+                      />
+                      <span>{comment.text}</span>
+                    </div>
+                  </SwiperSlide>
+                )
               })}
             </Swiper>
           </Col>
@@ -259,7 +287,8 @@ const MovieSingle = () => {
 
 export default MovieSingle
 
-{/* <SwiperSlide>
+{
+  /* <SwiperSlide>
 <div className='comment-box'>
   <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
   <p>User2</p>
@@ -282,4 +311,5 @@ export default MovieSingle
   <CDBRating iconFaces fillClassName="text-black" iconRegular />
   <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
 </div>
-</SwiperSlide> */}
+</SwiperSlide> */
+}
