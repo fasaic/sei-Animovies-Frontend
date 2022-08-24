@@ -6,6 +6,17 @@ import { Container, Row, Col, Card } from 'react-bootstrap'
 // Components
 import MovieCard from '../MovieCard'
 
+//! Components
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode, EffectCoverflow } from 'swiper'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/free-mode';
+import "swiper/css/effect-coverflow";
+SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel, FreeMode, EffectCoverflow])
+
 const Landing = () => {
   const [movies, setMovies] = useState([])
   const [error, setError] = useState('')
@@ -57,96 +68,133 @@ const Landing = () => {
 
   console.log('filteredMovies-->', filteredMovies)
   console.log('entries-->', Object.entries(filteredMovies))
-  // console.log('name ->', filteredMovies[Object.keys(filteredMovies)[1]][0].name)
 
-  // const nativeName = name.nativeName ? name.nativeName[Object.keys(name.nativeName)[0]].common : name.common
-
-  // console.log(filteredMovies.[Object.keys(filteredMovies)[0]])
-  // console.log('filteredMovies Name-->', Object.entries(filteredMovies)[3][1][1].name)
-  // const filteredMovies = movies.filter(movie => movie.tags.includes(genres[2]))
-  // console.log('filteredMovies-->', filteredMovies)
-  // let newObj = []
-  // useEffect(() => {
-
-  // }, [movies])
-  // genres.forEach((genre) => {
-  //   newObj[genre] = movies.filter((movies) => movies.tags.includes(genre))
-  // })
-
-  // {
-  //   'action': [{}],
-  //   'adventure': [{}]
-  // }
-
-  // [ []]
-
-  // console.log('newObj-->', newObj)
-  // console.log('newObj Action-->', newObj.Action)
-  // console.log('newObj Name-->', Object.entries(newObj)[3][1][1].name)
-
-  // console.log('newObj key-->', Object.keys(newObj[0]))
-
-  // for(i=1, i < genres.length; i++) {
-  //   // Set genre name as key of the new object
-  //   newObj key = genres[i]
-  //   // set value of that key as the filtered array that includes that genres[i]
-  //   newObject.key = [...movies.filter(movies => movies.tag.includes(genres[i]))]
-  // }
-  // filteredMovies = {
-  //   'Action': [{Lego}, ],
-  //   'Adventure': [{}]
-  // }
 
   return (
-    <Container as="main">
-      <h1>Movies</h1>
+    <Container className='landing-wrapper w-md-80'>
+      <Row className='landing-header'>
+        <Col className='landing-title col-5'>
+          <div>
+            <h1>Welcome to</h1>
+            <h1 className='red'>ANIMOVIES</h1>
+          </div>
+          <div>
+            <p>There is a lot more to <span>animations</span> than you think!</p>
+            <p>Tell us how you feel, or browse for your favorite movies!</p>
+
+          </div>
+          <Link to={`/search`}>
+          <button>Browse Animovies</button>
+          </Link>
+        </Col>
+        <Col>
+
+        </Col>
+      </Row>
       <Row>
         {movies.length > 0 ? (
           <>
+
             {Object.entries(filteredMovies).map((movie) => {
               // const { name, id, tags, imdbRating } = movie
               // const img = movie.posterImg
-              console.log('movie->', movie)
-              console.log('movie array->', movie[1])
-              console.log('first movie->', (movie[1])[0].name)
+              // console.log('movie->', movie)
+              // console.log('movie array->', movie[1])
+              // console.log('first movie->', (movie[1])[0].name)
               return (
                 <>
-                  <h3>{movie[0]}</h3>
-                  {/* <h3>{(movie[1])[0].name}</h3> */}
-                  {movie[1].map(movie => {
-                    return <p>{movie.name}</p>
-                  })}
+                  <Row className='movie-carousel'>
+                    <div className='genre-name'>
+                      <h3>{movie[0]}</h3>
+                    </div>
+
+                    <div className='movies'>
+                      <Swiper
+                        modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel, EffectCoverflow]}
+                        mousewheel={true}
+                        // coverflowEffect={{
+                        //   rotate: 50,
+                        //   stretch: 0,
+                        //   depth: 100,
+                        //   modifier: 1,
+                        //   slideShadows: true,
+                        // }}
+                        // pagination={{ clickable: true }}
+                        // navigation={true}
+                        // slidesPerView={10} 
+                        // spaceBetween={10}
+                        grabCursor={true}
+                        breakpoints={{
+                          375: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                            scrollbar: { draggable: true },
+                          },
+                          500: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                          },
+                          650: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                          },
+                          768: {
+                            slidesPerView: 6,
+                            spaceBetween: 20,
+                          },
+                          880: {
+                            slidesPerView: 6,
+                            spaceBetween: 20,
+                          },
+                          1024: {
+                            slidesPerView: 8,
+                            // spaceBetween: 30,
+                            navigation: true
+                          },
+                        }}
+                        freeMode={true}
+
+                        // scrollbar={{ draggable: true }}
+                        onSwiper={(swiper) => console.log(swiper)}
+                        onSlideChange={() => console.log('slide change')}
+                      >
+                        {movie[1].map(movie => {
+                          return (
+                            <SwiperSlide key={movie._id}>
+                              <div className="d-flex justify-content-around align-items-center">
+                                <div className="card-container">
+                                  <Link to={`/movies/${movie._id}`}>
+                                    <img src={movie.posterImg} alt="poster" className="w-1" />
+                                    <div className="text overlay bg-gradient">
+                                      <p>
+                                        {movie.name}, {movie.releaseYear}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                </div>
+                              </div>
+                            </SwiperSlide>
+                          )
+                        })}
+                      </Swiper>
+                    </div>
+                  </Row>
+                  {/* <Row className='movie-carousel'>
+                    <h3>{movie[0]}</h3>
+                    {movie[1].map(movie => {
+                      return <p>{movie.name}</p>
+                    })}
+                    {movie[1].map(movie => {
+                      return <p>{movie.name}</p>
+                    })}
+                  </Row> */}
 
 
-
-
-
-                  {/* //{' '}
-                  <Col className="mb-4" md="3" key={id}>
-                    //{' '}
-                    <Link className="mb-4" to={`/movies/${movie._id}`}>
-                      //{' '}
-                      <Card className="card ">
-                        //{' '}
-                        <Card.Img
-                          variant="top"
-                          className="w-100"
-                          src={img}
-                        ></Card.Img>
-                        //{' '}
-                        <Card.Body>
-                          {imdbRating}
-                          <Card.Title>{name}</Card.Title>
-                        </Card.Body>
-                        //{' '}
-                      </Card>
-                      //{' '}
-                    </Link>
-                    //{' '}
-                  </Col> */}
                 </>
               )
             })}
+
+
           </>
         ) : (
           <h1>{error ? 'error' : 'loading'}</h1>
