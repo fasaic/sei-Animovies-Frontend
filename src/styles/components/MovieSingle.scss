@@ -205,6 +205,7 @@
 
 .comment-box {
   background-color: rgb(232, 232, 232);
+  // background-color: rgb(48, 48, 48);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -283,14 +284,18 @@ svg {
 }
 
 .edit-comment{
-  // display: block;
-  display: none;
+  display: block;
+  // display: none;
 }
 
 .comment-display {
   display: flex;
   // display: none;
   flex-direction: column;
+  align-items: center;
+  button {
+
+  }
 }
 
 .show {
@@ -299,4 +304,9 @@ svg {
 
 .hide {
   display: none;
+  // background-color: dar;
+}
+
+.react-simple-star-rating-tooltip {
+  font-size: 0.5rem;
 }
