@@ -25,6 +25,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Watchlist from '../users/Watchlist'
 SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel])
 const MovieSingle = () => {
   const { movieId } = useParams()
@@ -37,6 +38,7 @@ const MovieSingle = () => {
   const [stills, setStills] = useState('')
   const [error, setError] = useState('')
   const [formData, setFormData] = useState([])
+  const [watchlistData, setWatchlistData] = useState([])
 
   const [addRating, setAddRating] = useState(0)
   const [hover, setHover] = useState(0)
@@ -69,6 +71,24 @@ const MovieSingle = () => {
       // headers: { Authorization: `Bearer ${token}`}
     }
   }
+
+  // ! WATCHLIST LOGIC
+
+  const handleAddToWatchlist = async (event) => {
+    event.preventDefault()
+    try {
+      console.log(`ADD THIS TO WATCHLIST ->`, movieId)
+      const req = await axios.post(
+        `http://localhost:4000/watchlist/add/${movieId}`,
+        movieId,
+        headers()
+      )
+    } catch {
+      console.log(error)
+    }
+  }
+
+  // ! COMMENT LOGIC
 
   const handleAddComment = async (event) => {
     // event.preventDefault()
@@ -118,7 +138,13 @@ const MovieSingle = () => {
           <div className="title d-flex justify-content-between">
             <h2>{movie.name}</h2>
             <div className="d-flex rating-wrapper">
-              <div className="text-center rating">
+              <button
+                onClick={handleAddToWatchlist}
+                className="text-center rating"
+              >
+                <p className="m-0">ADD TO WATCHLIST</p>
+              </button>
+              <div className="ms-4 text-center rating">
                 <p className="m-0">IMDB</p>
                 <p>{movie.imdbRating}</p>
               </div>

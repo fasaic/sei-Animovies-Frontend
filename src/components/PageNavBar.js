@@ -7,7 +7,6 @@ import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 const PageNavBar = () => {
-
   const navigate = useNavigate()
   const handleClick = (event) => {
     console.log(event.target.value)
@@ -24,7 +23,6 @@ const PageNavBar = () => {
     console.log('USER HAS LOGGED OUT')
   }
 
-
   return (
     <NavBar expand="md">
       <Container>
@@ -34,7 +32,6 @@ const PageNavBar = () => {
 
         <NavBar.Toggle aria-controls="basic-navbar-nav"></NavBar.Toggle>
         <NavBar.Collapse id="basic-navbar-nav" className="justify-content-end">
-
           <div className="search-container text-md-center text-end my-md-0 my-3">
             <input
               type="text"
@@ -45,11 +42,14 @@ const PageNavBar = () => {
           </div>
           {userIsAuthenticated() ? (
             <>
-              <Nav.Link as={Link} to="/profile" className="">
-                <span className="underline">Profile</span>
+              <Nav.Link as={Link} to="/watchlist">
+                <span className="underline">Watchlist</span>
+              </Nav.Link>
+              <Nav.Link as={Link} to="/profile">
+                <span className="underline ms-3">Profile</span>
               </Nav.Link>
               <Nav.Link onClick={handleLogout} as={Link} to="/">
-                <span className="underline ms-2">Logout</span>
+                <span className="underline ms-3">Logout</span>
               </Nav.Link>
             </>
           ) : (
@@ -62,7 +62,6 @@ const PageNavBar = () => {
               </Nav.Link>
             </>
           )}
-
         </NavBar.Collapse>
       </Container>
     </NavBar>
