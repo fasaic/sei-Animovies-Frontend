@@ -8,7 +8,7 @@ import StarRating from '../Ratings'
 import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Mousewheel } from 'swiper'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -18,7 +18,8 @@ import 'swiper/css/scrollbar';
 import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-SwiperCore.use([Navigation, Pagination, Scrollbar])
+import Col from 'react-bootstrap/Col'
+SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel])
 const MovieSingle = () => {
   const { movieId } = useParams()
   
@@ -133,13 +134,14 @@ const MovieSingle = () => {
               <div className='ms-4 text-center rating'>
                 <p className='m-0'>AMDB</p>
                 <p>{movie.avgUserRating}</p>
+                {/* <Rating emptyColor="white" fillColor="yellow" ratingValue={movie.avgRating} allowHover={false} /> */}
               </div>
             </div>
           </div>
           <hr />
 
           {/* MOVIE POSTER + TRAILERS */}
-          <div className='title-media mb-4'>
+          <div className='title-media mb-4 justify-content-center'>
             <div className='poster'>
               <img src={movie.posterImg} alt="poster" />
             </div>
@@ -148,7 +150,7 @@ const MovieSingle = () => {
             </div>
           </div>
           <hr />
-          <Row>
+          {/* <Row> */}
             <div className='content d-flex' key={movie._id}>
               <Row className='description'>
                 <p>Description:</p>
@@ -184,46 +186,71 @@ const MovieSingle = () => {
                 </p>
               </Row>
             </div>
-          </Row>
+          {/* </Row> */}
         </Row>
 
         {/* COMMENTS SECTION */}
-        <Row className='comment-wrapper'>
-          <div className='create-comment'>
-            <form className='d-flex flex-column align-center' onSubmit={handleAddComment}>
-              <h3>Comments</h3>
-              <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /* Rating Props */ />
+        <Row className='comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center'>
+          <Col className='create-comment'>
+          <h3>Comments</h3>
+            <form className='d-flex flex-column justify-content-between' onSubmit={handleAddComment}>
+              
+              <div className='d-flex align-center rate-container'>
+                <p>Rate</p>
+              {/* <label htmlFor="rate">Rate</label> */}
+              <Rating name='rate' onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /* Rating Props */ />
+              </div>
+              
               {/* <StarRating addRating={addRating} setAddRating={setAddRating} setHover={setHover} hover={hover} formData={formData} setFormData={setFormData}/> */}
               {/* <CDBRating iconFaces fillClassName="text-black" iconRegular /> */}
               <textarea name="text" placeholder='What do you think about this movie?' onChange={handleChange}>{formData.text}</textarea>
               <input type="submit" value="Add Comment" />
             </form>
-          </div>
-          <div className='previous-comments'>
+          </Col>
+
+          <Col className='previous-comments'>
             <Swiper
               // install Swiper modules
-              modules={[Navigation, Pagination, Scrollbar, A11y]}
+              modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel]}
               spaceBetween={20}
               slidesPerView={3}
-              // navigation
-              // pagination={{ clickable: true }}
-              scrollbar={{ draggable: true }}
-              // onSwiper={(swiper) => console.log(swiper)}
-              // onSlideChange={() => console.log('slide change')}
+              keyboard={true}
+              mousewheel={true}
+              // mousewheel={{sensitivity: 20}}
+              // navigation={{hideOnClick: true}}
+              pagination={{ clickable: true }}
+              breakpoints={{
+                375: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                  scrollbar:{ draggable: true },
+                },
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 20,
+                },
+              }}
+              // scrollbar={{ draggable: true }}
+              onSwiper={(swiper) => console.log(swiper)}
+              onSlideChange={() => console.log('slide change')}
             >
               {comments.map(comment => {
                 return <SwiperSlide key={comment._id}>
                   <div className='comment-box'>
                     <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-                    <p>{comment.userName}</p>
-                    <p>rating</p>
-                    <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={comment.rating} allowHover={false} /* Rating Props */ />
+                     <p>{comment.userName}</p>
+                    {/* <p className='mb-0 fs-'>rating</p> */}
+                    <Rating onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={comment.rating} allowHover={false} readonly={true} /* Rating Props */ />
                     <span>{comment.text}</span>
                   </div>
                 </SwiperSlide>
               })}
             </Swiper>
-          </div>
+          </Col>
         </Row>
       </Container>
     </div>
