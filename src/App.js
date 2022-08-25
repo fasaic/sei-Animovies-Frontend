@@ -10,6 +10,8 @@ import Login from "./components/users/Login"
 import Register from "./components/users/Register"
 import UserProfile from "./components/users/UserProfile"
 import Ratings from "./components/Ratings"
+import Footer from "./components/Footer"
+import About from "./components/About"
 
 
 const App = () => {
@@ -26,8 +28,10 @@ const App = () => {
           {/* When working can add in the /:userId */}
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/ratings" element={<Ratings />} />
+          <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   )
