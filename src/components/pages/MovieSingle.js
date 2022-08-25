@@ -8,17 +8,29 @@ import StarRating from '../Ratings'
 import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode } from 'swiper'
+
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Mousewheel,
+  FreeMode,
+} from 'swiper'
+
+
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import 'swiper/css/free-mode'
-import { MdOutlineSentimentDissatisfied,
+import {
+  MdOutlineSentimentDissatisfied,
   MdOutlineSentimentNeutral,
   MdOutlineSentimentSatisfied,
   MdOutlineSentimentVeryDissatisfied,
-  MdOutlineSentimentVerySatisfied
+  MdOutlineSentimentVerySatisfied,
+
 } from 'react-icons/md'
 
 // Bootstrap Components
@@ -43,7 +55,6 @@ const MovieSingle = () => {
   const [update, setUpdate] = useState(false)
   const [watchlistData, setWatchlistData] = useState([])
 
-
   const [addRating, setAddRating] = useState(0)
   const [hover, setHover] = useState(0)
 
@@ -52,7 +63,7 @@ const MovieSingle = () => {
     { icon: <MdOutlineSentimentNeutral size={20} /> },
     { icon: <MdOutlineSentimentSatisfied size={20} /> },
     { icon: <MdOutlineSentimentVeryDissatisfied size={20} /> },
-    { icon: <MdOutlineSentimentVerySatisfied size={20} /> }
+    { icon: <MdOutlineSentimentVerySatisfied size={20} /> },
   ]
 
   useEffect(() => {
@@ -111,13 +122,10 @@ const MovieSingle = () => {
   const headers = () => {
     const token = getToken().split(' ')[1]
     return {
-
       headers: { Authorization: `Bearer ${getToken()}` },
       // headers: { Authorization: `Bearer ${token}`}
     }
   }
-
-
 
   // ! WATCHLIST LOGIC
 
@@ -137,7 +145,6 @@ const MovieSingle = () => {
 
   // ! COMMENT LOGIC
 
-
   const handleAddComment = async (event) => {
     // event.preventDefault()
     try {
@@ -152,13 +159,12 @@ const MovieSingle = () => {
       setMovie(data)
       setFormData({ text: '', rating: '' })
       // window.location.reload()
-
-
     } catch (e) {
       setError(e)
       console.log(error)
     }
   }
+
 
   const handleUpdateComment = async (event) => {
     // event.preventDefault()
@@ -183,7 +189,6 @@ const MovieSingle = () => {
 
   const handleRating = (rating) => {
     setFormData({ ...formData, rating })
-
   }
   
   const handleDelete = async (event) => {
@@ -255,7 +260,6 @@ const MovieSingle = () => {
 
           <div className="content d-flex" key={movie._id}>
             <Row className="description">
-
               <p>Description:</p>
               <span>{movie.description}</span>
               <p>Production Company: </p>
@@ -265,7 +269,6 @@ const MovieSingle = () => {
                 Directors:
                 <ul>
                   {directors.map((director) => {
-
                     return <li> {director} </li>
                   })}
                 </ul>
@@ -275,7 +278,6 @@ const MovieSingle = () => {
                 Cast:
                 <ul>
                   {cast.map((cast) => {
-
                     return <li> {cast} </li>
                   })}
                 </ul>
@@ -299,7 +301,6 @@ const MovieSingle = () => {
                 Tags:
                 <ul>
                   {tags.map((tag) => {
-
                     return <li> {tag} </li>
                   })}
                 </ul>
@@ -330,17 +331,23 @@ const MovieSingle = () => {
                   ratingValue={formData.rating} /* Rating Props */ />
               </div>
 
+
               <textarea name="text" placeholder='What do you think about this movie?' maxlength="280" onChange={handleChange} required>{formData.text}</textarea>
               <input type="submit" value="Add Comment" required />
             </form>
-          </div>
+          </Col>
 
-
-          <Col className="previous-comments">
-
+          <div className="previous-comments">
             <Swiper
               // install Swiper modules
-              modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode]}
+              modules={[
+                Navigation,
+                Pagination,
+                Scrollbar,
+                A11y,
+                Mousewheel,
+                FreeMode,
+              ]}
               // spaceBetween={15}
               slidesPerView={3}
               freeMode={true}
@@ -370,7 +377,6 @@ const MovieSingle = () => {
               onSwiper={(swiper) => console.log(swiper)}
               onSlideChange={() => console.log('slide change')}
             >
-
               {comments.map((comment) => {
             return <SwiperSlide key={comment._id}>
             <div className='comment-box'>
@@ -416,6 +422,7 @@ const MovieSingle = () => {
                       <input type="button" value="Cancel" className={update ? '' : 'hide'} onClick={() => setUpdate(false)} />
                     </div>
 
+
                   </form>
                   {/* <button className={update ? '' : 'hide'} onClick={() => setUpdate(false)}>cancel</button> */}
                 </>
@@ -428,6 +435,7 @@ const MovieSingle = () => {
 
             </div>
           </SwiperSlide>
+
               })}
             </Swiper>
           </Col>
