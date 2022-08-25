@@ -17,7 +17,7 @@ const Watchlist = () => {
           headers: { Authorization: `Bearer ${getToken()}` },
         })
         setProfile(data)
-        setWatchlist(data.likedMovies)
+        setWatchlist(data.watchlist)
         // console.log(data)
       } catch (err) {
         console.log(err)
@@ -27,7 +27,7 @@ const Watchlist = () => {
     getData()
   }, [])
 
-  console.log(profile.likedMovies)
+  console.log(profile.watchlist)
 
   // console.log('user watchlist ->', profile.likedMovies)
 
