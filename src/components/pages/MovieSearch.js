@@ -14,7 +14,9 @@ const MovieSearch = () => {
   const [tags, setTags] = useState([])
   // set tag from tag button on frontend
   const [tag, setTag] = useState([])
+  const [activeBtn, setActiveBtn] = useState([])
   const [searchValue, setSearchValue] = useState([])
+  const [clicked, setClicked] = useState('false')
   const [filters, setFilters] = useState({
     tag: 'All',
     search: ''
@@ -64,7 +66,9 @@ const MovieSearch = () => {
     }
     console.log('newObj', newObj)
     setFilters(newObj)
-    btnColor === "whitesmoke" ? setBtnColor("wheat") : setBtnColor("whitesmoke")
+    // event.target.className="btn-clicked"
+    setActiveBtn(event.target.value)
+    // btnColor === "whitesmoke" ? setBtnColor("wheat") : setBtnColor("whitesmoke")
     
   }
 
@@ -96,20 +100,17 @@ const MovieSearch = () => {
 
   const genres = [...new Set(movies.map(movie => movie.tags))]
   return (
-    <Container className="search-wrapper">
+    <Container className="search-wrapper min-vh-100">
       <div className='title-container'>
         <h1>MovieSearch</h1>
         <div className='search-container text-md-center text-end my-md-0 my-3'>
           <input type="text" className="seach" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>
         </div>
         <div>
-          {genreDummy.map((genre) => {
-            return <button onClick={handleSearch} name="tag" value={genre} style={{ backgroundColor: btnColor }}> {genre}</button>
+          {genreDummy.map((genre, index) => {
+
+            return <button className={activeBtn === genre ? "btn-clicked": "" } onClick={handleSearch} name="tag" value={genre} > {genre}</button>
           })}
-          {/* 
-        {genres.map((genre) => {
-          return <button key={genre} onClick={handleSearch} name="tag" value={genre}> {genre}</button>
-        })} */}
         </div>
 
       </div>
@@ -131,7 +132,7 @@ const MovieSearch = () => {
                 </div>
 
 
-              </div>
+              </div> 
             </>
           )
         })}
