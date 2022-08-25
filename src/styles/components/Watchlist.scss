@@ -1,3 +1,15 @@
+.watchlist-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: rgb(242, 241, 241);
+  border-radius: 8px;
+  padding: 30px;
+  height: 8rem;
+  max-width: 88vh;
+}
+
 .grid-container {
   display: flex;
   flex-wrap: wrap;
@@ -6,6 +18,7 @@
   background-color: rgb(242, 241, 241);
   padding: 30px;
   border-radius: 8px;
+  max-width: 88vh;
 }
 .card-container {
   position: relative;
