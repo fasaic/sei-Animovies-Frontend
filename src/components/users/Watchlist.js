@@ -4,7 +4,7 @@ import { getToken } from '../../auth/auth.js'
 
 // ! Components
 import { Link } from 'react-router-dom'
-import { Row } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 
 const Watchlist = () => {
   // const userId = console.log('user')
@@ -56,34 +56,33 @@ const Watchlist = () => {
 
   return (
     <>
-      <h1>My Watchlist - User: {profile.userName}</h1>
-      {userWatchlist.map((mappedObject, idx) => {
-        const { _id, name, posterImg, releaseYear } = mappedObject
-        return (
-          <>
-            <div className="d-flex justify-content-around align-items-center">
-              <div className="card-container">
-                <Link to={`/movies/${_id}`}>
-                  <img src={posterImg} alt="poster" className="w-1" />
-                  <div className="text overlay bg-gradient">
-                    <p>
-                      {name}, {releaseYear}
-                    </p>
+      <div className="watchlist min-vh-100">
+        <Container className="watchlist-banner mt-3">
+          <h1>{profile.userName}'s Watchlist</h1>
+          <p>
+            Add your favourite movies so that you remember to watch them later.
+          </p>
+        </Container>
+        <Container className="grid-container mb-3 mt-3 ">
+          {userWatchlist.map((mappedObject, idx) => {
+            const { _id, name, posterImg, releaseYear } = mappedObject
+            return (
+              <>
+                <div className="justify-content-center align-items-center">
+                  <div className="card-container">
+                    <img src={posterImg} alt="poster" className="w-1" />
+                    <div className="overlay bg-gradient">
+                      <button value={_id} onClick={handleRemoveFromWatchlist}>
+                        x
+                      </button>
+                    </div>
                   </div>
-                </Link>
-              </div>
-              <button
-                id="watchlist-btn"
-                className="ms-3"
-                value={_id}
-                onClick={handleRemoveFromWatchlist}
-              >
-                Delete
-              </button>
-            </div>
-          </>
-        )
-      })}
+                </div>
+              </>
+            )
+          })}
+        </Container>
+      </div>
     </>
   )
 }
