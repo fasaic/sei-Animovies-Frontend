@@ -4,7 +4,7 @@ import { getToken } from '../../auth/auth.js'
 
 // ! Components
 import { Link } from 'react-router-dom'
-import { Row } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 
 const Watchlist = () => {
   // const userId = console.log('user')
@@ -56,25 +56,26 @@ const Watchlist = () => {
 
   return (
     <>
-      <h1>My Watchlist - User: {profile.userName}</h1>
-      <div className="grid-container">
-        {userWatchlist.map((mappedObject, idx) => {
-          const { _id, name, posterImg, releaseYear } = mappedObject
-          return (
-            <>
-              <div className="justify-content-center align-items-center">
-                <div className="card-container">
-                  <img src={posterImg} alt="poster" className="w-1" />
-                  <div className="overlay bg-gradient">
-                    <button value={_id} onClick={handleRemoveFromWatchlist}>
-                      x
-                    </button>
+      <div className="watchlist-wrapper min-vh-100">
+        <Container className="grid-container mb-5 mt-5 ">
+          {userWatchlist.map((mappedObject, idx) => {
+            const { _id, name, posterImg, releaseYear } = mappedObject
+            return (
+              <>
+                <div className="justify-content-center align-items-center">
+                  <div className="card-container">
+                    <img src={posterImg} alt="poster" className="w-1" />
+                    <div className="overlay bg-gradient">
+                      <button value={_id} onClick={handleRemoveFromWatchlist}>
+                        x
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          )
-        })}
+              </>
+            )
+          })}
+        </Container>
       </div>
     </>
   )
