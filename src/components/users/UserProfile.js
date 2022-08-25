@@ -27,14 +27,12 @@ const UserProfile = () => {
         })
         console.log(data)
         setProfile(data)
-        setName(data.name)
-        setUserName(data.userName)
-        setFavourites(data.favouriteMovieGenre)
-        // These needs fixing because it won't work as password is hashed
-        setPassword(data.password)
-        setConfirmPassword(data.confirmPassword)
-
-        console.log(data)
+        // setName(data.name)
+        // setUserName(data.userName)
+        // setFavourites(data.favouriteMovieGenre)
+        // // These needs fixing because it won't work as password is hashed
+        // setPassword(data.password)
+        // setConfirmPassword(data.confirmPassword)
       } catch (error) {
         setError(error)
         console.log(error)
@@ -44,7 +42,7 @@ const UserProfile = () => {
   }, [])
 
   return (
-    <Container className="profile-wrapper mb-5">
+    <Container className="profile-wrapper mb-5 min-vh-100">
       <section className="section about-section gray-bg" id="about">
         <div className="container">
           <div className="row align-items-center flex-row-reverse">

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // Import Pages/Components
 import Landing from "./components/pages/Landing"
@@ -10,6 +10,10 @@ import Login from "./components/users/Login"
 import Register from "./components/users/Register"
 import UserProfile from "./components/users/UserProfile"
 import Ratings from "./components/Ratings"
+import Footer from "./components/Footer"
+import Watchlist from './components/users/Watchlist'
+import About from "./components/About"
+
 
 
 const App = () => {
@@ -19,15 +23,19 @@ const App = () => {
         <PageNavBar />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/search" element={<MovieSearch/>} />
+          <Route path="/search" element={<MovieSearch />} />
           <Route path="/movies/:movieId" element={<MovieSingle />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           {/* When working can add in the /:userId */}
-          <Route path="/profile" element={<UserProfile />} />
+     
           <Route path="/ratings" element={<Ratings />} />
+          <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/watchlist" element={<Watchlist />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   )
