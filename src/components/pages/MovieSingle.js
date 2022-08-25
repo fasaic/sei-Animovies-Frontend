@@ -8,18 +8,18 @@ import StarRating from '../Ratings'
 import { getToken, userIsAuthenticated } from '../../auth/auth.js'
 //! Components
 import { Swiper, SwiperSlide } from 'swiper/react'
-import SwiperCore, {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Mousewheel,
-} from 'swiper'
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-
+import 'swiper/css/free-mode'
+import { MdOutlineSentimentDissatisfied,
+  MdOutlineSentimentNeutral,
+  MdOutlineSentimentSatisfied,
+  MdOutlineSentimentVeryDissatisfied,
+  MdOutlineSentimentVerySatisfied
+} from 'react-icons/md'
 
 // Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
@@ -27,7 +27,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Watchlist from '../users/Watchlist'
-SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel])
+SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel, FreeMode])
 
 const MovieSingle = () => {
   const { movieId } = useParams()
@@ -40,6 +40,7 @@ const MovieSingle = () => {
   const [stills, setStills] = useState('')
   const [error, setError] = useState('')
   const [formData, setFormData] = useState([])
+  const [update, setUpdate] = useState(false)
   const [watchlistData, setWatchlistData] = useState([])
 
 
@@ -159,6 +160,22 @@ const MovieSingle = () => {
     }
   }
 
+  const handleUpdateComment = async (event) => {
+    // event.preventDefault()
+    try {
+      console.log(getToken())
+      console.log('form data -->', formData)
+      const { data } = await axios.put(`http://localhost:4000/${movieId}/${event.target.name}`, formData, headers())
+      // console.log('form data -->', formData)
+      // setMovie(data)
+      setFormData({ text: '', rating: '' })
+      // window.location.reload()
+
+    } catch (e) {
+      setError(e)
+      console.log(error)
+    }
+  }
 
   const handleChange = async (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -168,6 +185,18 @@ const MovieSingle = () => {
     setFormData({ ...formData, rating })
 
   }
+  
+  const handleDelete = async (event) => {
+    console.log('comment to delete -->', event.target.name)
+    try {
+      const { data } = await axios.delete(`http://localhost:4000/${movieId}/${event.target.name}`, headers())
+      window.location.reload()
+    } catch (e) {
+      setError(e)
+      console.log(error)
+    }
+  }
+
 
   const handleEdit = (event) => {
     setUpdate(true)
@@ -175,7 +204,7 @@ const MovieSingle = () => {
   }
   return (
     <div className="movie-single-wrapper text-center">
-      <Carousel fade>
+      <Carousel fade interval="1200">
         <Carousel.Item>
           <img className="d-block w-100" src={stills.img1} alt="First slide" />
         </Carousel.Item>
@@ -281,39 +310,30 @@ const MovieSingle = () => {
         </Row>
 
         {/* COMMENTS SECTION */}
-
-        <Row className="comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center">
-          <Col className="create-comment">
+        <Row className='comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center'>
+          <div className='create-comment'>
             <h3>Comments</h3>
-            <form
-              className="d-flex flex-column justify-content-between"
-              onSubmit={handleAddComment}
-            >
-              <div className="d-flex align-center rate-container">
+            <form className='d-flex flex-column justify-content-between' onSubmit={handleAddComment}>
+
+              <div className='d-flex align-center rate-container'>
                 <p>Rate</p>
                 {/* <label htmlFor="rate">Rate</label> */}
-                <Rating
-                  name="rate"
+                <Rating name='rate'
                   onClick={handleRating}
-                  emptyColor="white"
-                  fillColor="yellow"
-                  ratingValue={formData.rating} /* Rating Props */
-                />
+                  transition={true}
+                  // showTooltip={true}
+                  emptyColor="darkgrey"
+                  // fillColor="yellow" 
+                  required
+                  fillColorArray={['darkred', 'darkorange', 'gold', 'darkcyan', 'darkgreen']}
+                  customIcons={customIcons}
+                  ratingValue={formData.rating} /* Rating Props */ />
               </div>
 
-              {/* <StarRating addRating={addRating} setAddRating={setAddRating} setHover={setHover} hover={hover} formData={formData} setFormData={setFormData}/> */}
-              {/* <CDBRating iconFaces fillClassName="text-black" iconRegular /> */}
-              <textarea
-                name="text"
-                placeholder="What do you think about this movie?"
-                onChange={handleChange}
-              >
-                {formData.text}
-              </textarea>
-              <input type="submit" value="Add Comment" />
-
+              <textarea name="text" placeholder='What do you think about this movie?' maxlength="280" onChange={handleChange} required>{formData.text}</textarea>
+              <input type="submit" value="Add Comment" required />
             </form>
-          </Col>
+          </div>
 
 
           <Col className="previous-comments">
@@ -352,28 +372,62 @@ const MovieSingle = () => {
             >
 
               {comments.map((comment) => {
-                return (
-                  <SwiperSlide key={comment._id}>
-                    <div className="comment-box">
-                      <img
-                        src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6"
-                        alt="profile"
-                      />
-                      <p>{comment.userName}</p>
-                      {/* <p className='mb-0 fs-'>rating</p> */}
-                      <Rating
-                        onClick={handleRating}
-                        emptyColor="white"
-                        fillColor="yellow"
-                        ratingValue={comment.rating}
-                        allowHover={false}
-                        readonly={true} /* Rating Props */
-                      />
-                      <span>{comment.text}</span>
-                    </div>
-                  </SwiperSlide>
-                )
+            return <SwiperSlide key={comment._id}>
+            <div className='comment-box'>
+              <div>
+                <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
+                <p>{comment.userName}</p>
+                <Rating onClick={handleRating}
+                  emptyColor="darkgrey"
+                  // fillColor="yellow" 
+                  fillColorArray={['darkred', 'darkorange', 'gold', 'darkcyan', 'darkgreen']}
+                  customIcons={customIcons}
+                  ratingValue={comment.rating}
+                  allowHover={false}
+                  readonly={true} /* Rating Props */ />
+              </div>
 
+              <div className={update && (userName === comment.userName) ? 'comment-display hide' : 'comment-display'}>
+                <div className='comment-content'>
+                  {/* <p className='mb-0 fs-'>rating</p> */}
+
+                  <div className='comment-text'>
+                    <p>{comment.text}</p>
+                  </div>
+
+
+
+                </div>
+
+                <div className='buttons'>
+                  {userName === comment.userName ? <button name={comment._id} onClick={handleEdit}>Edit</button> : <></>}
+                  {userName === comment.userName ? <button name={comment._id} onClick={handleDelete}>🗑</button> : <></>}
+                </div>
+
+
+              </div>
+              {userName === comment.userName ?
+                <>
+                  <form className={update ? 'edit-comment' : 'edit-comment hide'} name={comment._id} onSubmit={handleUpdateComment}>
+                    {/* <Rating name='rate' onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /> */}
+                    <textarea name="text" placeholder={comment.text} onChange={handleChange}>{formData.text}</textarea>
+                    <div className='buttons'>
+                      <input type="submit" value="update" />
+                      <input type="button" value="Cancel" className={update ? '' : 'hide'} onClick={() => setUpdate(false)} />
+                    </div>
+
+                  </form>
+                  {/* <button className={update ? '' : 'hide'} onClick={() => setUpdate(false)}>cancel</button> */}
+                </>
+
+                :
+                <></>
+
+              }
+
+
+            </div>
+          </SwiperSlide>
               })}
             </Swiper>
           </Col>
