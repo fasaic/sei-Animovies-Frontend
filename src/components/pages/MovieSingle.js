@@ -33,6 +33,9 @@ import {
 
 } from 'react-icons/md'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
@@ -44,6 +47,7 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel, FreeMode])
 const MovieSingle = () => {
   const { movieId } = useParams()
 
+  
   const [movie, setMovie] = useState([])
   const [directors, setDirectors] = useState([])
   const [cast, setCast] = useState([])
@@ -146,11 +150,11 @@ const MovieSingle = () => {
   // ! COMMENT LOGIC
 
   const handleAddComment = async (event) => {
-    // event.preventDefault()
+    event.preventDefault()
     try {
       console.log(getToken())
       console.log('form data -->', formData)
-      const { data } = await axios.post(
+      const {data}  = await axios.post(
         `http://localhost:4000/${movieId}/comment`,
         formData,
         headers()
@@ -158,10 +162,23 @@ const MovieSingle = () => {
       // console.log('form data -->', formData)
       setMovie(data)
       setFormData({ text: '', rating: '' })
+      console.log('res-->',data.message)
       // window.location.reload()
-    } catch (e) {
-      setError(e)
+    } catch (error) {
+      console.log('error message-->', error.response.data.message)
+      // setError(e.data.message)
+      toast( error.response.data.message, {
+        position: "bottom-center",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
       console.log(error)
+      // console.log('error message-->', e.res)
+
     }
   }
 
@@ -334,6 +351,7 @@ const MovieSingle = () => {
 
               <textarea name="text" placeholder='What do you think about this movie?' maxlength="280" onChange={handleChange} required>{formData.text}</textarea>
               <input type="submit" value="Add Comment" required />
+              <ToastContainer />
             </form>
           </div>
 
