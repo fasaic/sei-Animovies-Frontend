@@ -14,7 +14,7 @@ const MovieSearch = () => {
   const [tags, setTags] = useState([])
   // set tag from tag button on frontend
   const [tag, setTag] = useState([])
-  const [activeBtn, setActiveBtn] = useState([])
+  const [activeBtn, setActiveBtn] = useState('All')
   const [searchValue, setSearchValue] = useState([])
   const [clicked, setClicked] = useState('false')
   const [filters, setFilters] = useState({
