@@ -28,11 +28,12 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           {/* When working can add in the /:userId */}
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/watchlist" element={<Watchlist />} />
+     
           <Route path="/ratings" element={<Ratings />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/watchlist" element={<Watchlist />} />
         </Routes>
         <Footer />
       </BrowserRouter>

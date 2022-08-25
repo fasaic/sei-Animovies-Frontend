@@ -7,7 +7,7 @@ const About = () => {
     return (
         <>
             <h1 className="text-center m-4">About The Developers</h1>
-            <Container className="container">
+            <Container className=" about-container min-vh-100">
                 <Row>
                     <Col className="col-lg-4">
                         <Card className="card p-0">
