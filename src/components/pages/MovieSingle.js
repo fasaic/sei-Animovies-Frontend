@@ -14,12 +14,20 @@ import SwiperCore, {
   Scrollbar,
   A11y,
   Mousewheel,
+  FreeMode,
 } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-
+import 'swiper/css/free-mode'
+import {
+  MdOutlineSentimentDissatisfied,
+  MdOutlineSentimentNeutral,
+  MdOutlineSentimentSatisfied,
+  MdOutlineSentimentVeryDissatisfied,
+  MdOutlineSentimentVerySatisfied,
+} from 'react-icons/md'
 
 // Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
@@ -40,8 +48,8 @@ const MovieSingle = () => {
   const [stills, setStills] = useState('')
   const [error, setError] = useState('')
   const [formData, setFormData] = useState([])
+  const [update, setUpdate] = useState(false)
   const [watchlistData, setWatchlistData] = useState([])
-
 
   const [addRating, setAddRating] = useState(0)
   const [hover, setHover] = useState(0)
@@ -51,7 +59,7 @@ const MovieSingle = () => {
     { icon: <MdOutlineSentimentNeutral size={20} /> },
     { icon: <MdOutlineSentimentSatisfied size={20} /> },
     { icon: <MdOutlineSentimentVeryDissatisfied size={20} /> },
-    { icon: <MdOutlineSentimentVerySatisfied size={20} /> }
+    { icon: <MdOutlineSentimentVerySatisfied size={20} /> },
   ]
 
   useEffect(() => {
@@ -110,13 +118,10 @@ const MovieSingle = () => {
   const headers = () => {
     const token = getToken().split(' ')[1]
     return {
-
       headers: { Authorization: `Bearer ${getToken()}` },
       // headers: { Authorization: `Bearer ${token}`}
     }
   }
-
-
 
   // ! WATCHLIST LOGIC
 
@@ -136,7 +141,6 @@ const MovieSingle = () => {
 
   // ! COMMENT LOGIC
 
-
   const handleAddComment = async (event) => {
     // event.preventDefault()
     try {
@@ -151,14 +155,11 @@ const MovieSingle = () => {
       setMovie(data)
       setFormData({ text: '', rating: '' })
       // window.location.reload()
-
-
     } catch (e) {
       setError(e)
       console.log(error)
     }
   }
-
 
   const handleChange = async (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -166,7 +167,6 @@ const MovieSingle = () => {
 
   const handleRating = (rating) => {
     setFormData({ ...formData, rating })
-
   }
 
   const handleEdit = (event) => {
@@ -226,7 +226,6 @@ const MovieSingle = () => {
 
           <div className="content d-flex" key={movie._id}>
             <Row className="description">
-
               <p>Description:</p>
               <span>{movie.description}</span>
               <p>Production Company: </p>
@@ -236,7 +235,6 @@ const MovieSingle = () => {
                 Directors:
                 <ul>
                   {directors.map((director) => {
-
                     return <li> {director} </li>
                   })}
                 </ul>
@@ -246,7 +244,6 @@ const MovieSingle = () => {
                 Cast:
                 <ul>
                   {cast.map((cast) => {
-
                     return <li> {cast} </li>
                   })}
                 </ul>
@@ -270,7 +267,6 @@ const MovieSingle = () => {
                 Tags:
                 <ul>
                   {tags.map((tag) => {
-
                     return <li> {tag} </li>
                   })}
                 </ul>
@@ -311,16 +307,20 @@ const MovieSingle = () => {
                 {formData.text}
               </textarea>
               <input type="submit" value="Add Comment" />
-
             </form>
-          </div>
+          </Col>
 
-
-          <Col className="previous-comments">
-
+          <div className="previous-comments">
             <Swiper
               // install Swiper modules
-              modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode]}
+              modules={[
+                Navigation,
+                Pagination,
+                Scrollbar,
+                A11y,
+                Mousewheel,
+                FreeMode,
+              ]}
               // spaceBetween={15}
               slidesPerView={3}
               freeMode={true}
@@ -350,7 +350,6 @@ const MovieSingle = () => {
               onSwiper={(swiper) => console.log(swiper)}
               onSlideChange={() => console.log('slide change')}
             >
-
               {comments.map((comment) => {
                 return (
                   <SwiperSlide key={comment._id}>
@@ -373,7 +372,6 @@ const MovieSingle = () => {
                     </div>
                   </SwiperSlide>
                 )
-
               })}
             </Swiper>
           </div>
