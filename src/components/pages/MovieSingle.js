@@ -313,7 +313,7 @@ const MovieSingle = () => {
               <input type="submit" value="Add Comment" />
 
             </form>
-          </div>
+          </Col>
 
 
           <Col className="previous-comments">
@@ -376,7 +376,7 @@ const MovieSingle = () => {
 
               })}
             </Swiper>
-          </div>
+          </Col>
         </Row>
       </Container>
     </div>
