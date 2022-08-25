@@ -11,6 +11,7 @@ import Register from "./components/users/Register"
 import UserProfile from "./components/users/UserProfile"
 import Ratings from "./components/Ratings"
 import Footer from "./components/Footer"
+import Watchlist from './components/users/Watchlist'
 import About from "./components/About"
 
 
