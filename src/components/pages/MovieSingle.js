@@ -335,7 +335,7 @@ const MovieSingle = () => {
               <textarea name="text" placeholder='What do you think about this movie?' maxlength="280" onChange={handleChange} required>{formData.text}</textarea>
               <input type="submit" value="Add Comment" required />
             </form>
-          </Col>
+          </div>
 
           <div className="previous-comments">
             <Swiper
@@ -438,7 +438,7 @@ const MovieSingle = () => {
 
               })}
             </Swiper>
-          </Col>
+          </div>
         </Row>
       </Container>
     </div>
