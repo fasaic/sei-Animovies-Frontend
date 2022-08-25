@@ -20,6 +20,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
+
 // Bootstrap Components
 import Carousel from 'react-bootstrap/Carousel'
 import Container from 'react-bootstrap/Container'
@@ -27,6 +28,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Watchlist from '../users/Watchlist'
 SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel])
+
 const MovieSingle = () => {
   const { movieId } = useParams()
 
@@ -40,8 +42,17 @@ const MovieSingle = () => {
   const [formData, setFormData] = useState([])
   const [watchlistData, setWatchlistData] = useState([])
 
+
   const [addRating, setAddRating] = useState(0)
   const [hover, setHover] = useState(0)
+
+  const customIcons = [
+    { icon: <MdOutlineSentimentDissatisfied size={20} /> },
+    { icon: <MdOutlineSentimentNeutral size={20} /> },
+    { icon: <MdOutlineSentimentSatisfied size={20} /> },
+    { icon: <MdOutlineSentimentVeryDissatisfied size={20} /> },
+    { icon: <MdOutlineSentimentVerySatisfied size={20} /> }
+  ]
 
   useEffect(() => {
     const getData = async () => {
@@ -64,13 +75,48 @@ const MovieSingle = () => {
     getData()
   }, [])
 
+  const [name, setName] = useState('')
+  const [profile, setProfile] = useState({})
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = ''
+  const [confirmPassword, setConfirmPassword] = ''
+  const [favourites, setFavourites] = useState([])
+  let isUpdate = false
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:4000/profile`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        })
+        console.log(data)
+        // setProfile(data)
+        // setName(data.name)
+        setUserName(data.userName)
+        // setFavourites(data.favouriteMovieGenre)
+        // These needs fixing because it won't work as password is hashed
+        // setPassword(data.password)
+        // setConfirmPassword(data.confirmPassword)
+
+        console.log(data)
+      } catch (error) {
+        setError(error)
+        console.log(error)
+      }
+    }
+    getData()
+  }, [])
+
   const headers = () => {
     const token = getToken().split(' ')[1]
     return {
+
       headers: { Authorization: `Bearer ${getToken()}` },
       // headers: { Authorization: `Bearer ${token}`}
     }
   }
+
+
 
   // ! WATCHLIST LOGIC
 
@@ -90,6 +136,7 @@ const MovieSingle = () => {
 
   // ! COMMENT LOGIC
 
+
   const handleAddComment = async (event) => {
     // event.preventDefault()
     try {
@@ -104,11 +151,14 @@ const MovieSingle = () => {
       setMovie(data)
       setFormData({ text: '', rating: '' })
       // window.location.reload()
+
+
     } catch (e) {
       setError(e)
       console.log(error)
     }
   }
+
 
   const handleChange = async (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -116,8 +166,13 @@ const MovieSingle = () => {
 
   const handleRating = (rating) => {
     setFormData({ ...formData, rating })
+
   }
 
+  const handleEdit = (event) => {
+    setUpdate(true)
+    console.log('setUpdate')
+  }
   return (
     <div className="movie-single-wrapper text-center">
       <Carousel fade>
@@ -168,29 +223,36 @@ const MovieSingle = () => {
           </div>
           <hr />
           {/* <Row> */}
+
           <div className="content d-flex" key={movie._id}>
             <Row className="description">
+
               <p>Description:</p>
               <span>{movie.description}</span>
               <p>Production Company: </p>
               <span>{movie.productionCompany}</span>
+
               <p>
                 Directors:
                 <ul>
                   {directors.map((director) => {
+
                     return <li> {director} </li>
                   })}
                 </ul>
               </p>
+
               <p>
                 Cast:
                 <ul>
                   {cast.map((cast) => {
+
                     return <li> {cast} </li>
                   })}
                 </ul>
               </p>
             </Row>
+
             <Row className="description-2">
               <p>
                 Box Office: <span>{movie.boxOffice}</span>
@@ -208,6 +270,7 @@ const MovieSingle = () => {
                 Tags:
                 <ul>
                   {tags.map((tag) => {
+
                     return <li> {tag} </li>
                   })}
                 </ul>
@@ -218,6 +281,7 @@ const MovieSingle = () => {
         </Row>
 
         {/* COMMENTS SECTION */}
+
         <Row className="comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center">
           <Col className="create-comment">
             <h3>Comments</h3>
@@ -247,18 +311,20 @@ const MovieSingle = () => {
                 {formData.text}
               </textarea>
               <input type="submit" value="Add Comment" />
+
             </form>
-          </Col>
+          </div>
+
 
           <Col className="previous-comments">
+
             <Swiper
               // install Swiper modules
-              modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel]}
-              spaceBetween={20}
+              modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel, FreeMode]}
+              // spaceBetween={15}
               slidesPerView={3}
-              keyboard={true}
+              freeMode={true}
               mousewheel={true}
-              // mousewheel={{sensitivity: 20}}
               // navigation={{hideOnClick: true}}
               pagination={{ clickable: true }}
               breakpoints={{
@@ -268,18 +334,23 @@ const MovieSingle = () => {
                   scrollbar: { draggable: true },
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                   spaceBetween: 20,
                 },
-                1024: {
+                920: {
+                  slidesPerView: 2,
+                  spaceBetween: 10,
+                },
+                1081: {
                   slidesPerView: 3,
-                  spaceBetween: 20,
+                  spaceBetween: 10,
                 },
               }}
               // scrollbar={{ draggable: true }}
               onSwiper={(swiper) => console.log(swiper)}
               onSlideChange={() => console.log('slide change')}
             >
+
               {comments.map((comment) => {
                 return (
                   <SwiperSlide key={comment._id}>
@@ -302,9 +373,10 @@ const MovieSingle = () => {
                     </div>
                   </SwiperSlide>
                 )
+
               })}
             </Swiper>
-          </Col>
+          </div>
         </Row>
       </Container>
     </div>
