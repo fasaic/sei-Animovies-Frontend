@@ -1,24 +1,43 @@
-.profile-wrapper{
-  max-width: 1000px;
-  // margin-top: 60px;
+.profile-wrapper {
+  max-width: 800px;
   justify-content: center;
   padding: 10px;
   text-align: center;
   border-radius: 15px;
-  // box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  // background-color: rgba(255, 255, 255, 0.945);
-  .profile-avatar {
-    max-width: 250px;
-    border-radius: 10px;
+  padding: 20px;
+  color: rgb(54, 54, 54);
+  .profile-container {
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    filter: drop-shadow(4px 4px 15px rgba(0, 0, 0, 0.2));
+    h4 {
+      color: rgb(54, 54, 54);
+      text-transform: uppercase;
+    }
+  }
+  .profile-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 8px;
+    height: 8rem;
+    margin-bottom: 20px;
+    h1 {
+      text-transform: uppercase;
+    }
   }
   .about-wrapper {
-    background-color: rgba(255, 255, 255, 0.956);
     padding: 25px;
-    border-radius: 15px;
-    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.2));
-    .media {
-      label{
+    .profile-avatar {
+      max-width: 210px;
+      border-radius: 8px;
+    }
+    .detail-text {
+      padding: 0px;
+      h2 {
         font-weight: bold;
         color: rgb(61, 129, 129);
         font-size: 1.2rem;
@@ -28,10 +47,138 @@
       }
     }
   }
+  
+}
+
+.img-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  border-right: 1px solid lightgray;
+  padding-right: 0px;
+
+}
+
+.detail-wrapper {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-center;
+  min-height: 220px;
+  text-align: left;
+  justify-content: space-between;
+  h3 {
+    text-transform: uppercase;
+  }
+  .detail-container{
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+  }
 }
 
 
-.header-img {
-  max-width: 50px;
-  border-radius: 10px;
+
+// ACCORDION
+.accordion-content-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.accordion-body {
+  display: flex;
+  align-items: flex-start;
+  justify-items: flex-start;
+  width: 600px;
+}
+
+
+
+.poster {
+  position: relative;
+  transition: .5s ease;
+  .overlay {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #0f0f0fcd;
+    overflow: hidden;
+    width: 100%;
+    max-height: 0;
+    transition: .5s ease;
+    border-radius: 0px 0px 10px 10px;
+    p {
+      text-decoration: none;
+      color: white;
+      font-weight: 300;
+      font-size: 0.8rem;
+      margin: 5px;
+    }
+  
+  }
+  .comment-img {
+    max-width: 100px;
+    border-radius: 10px;
+    
+
+  
+  }
+  &:hover .overlay {
+    max-height: 30%;
+    
+  }
+  &:hover {
+    // filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.701));
+    box-shadow: 0px 2px 20px 0px rgba(128, 128, 128, 0.57);
+    transform: scale(1.03);
+
+  }
+}
+.comment-details{
+  width: 100%;
+  text-align: left;
+  margin-left: 20px;
+  h3 {
+    font-size: 1.1rem;
+  }
+  p {
+    font-weight: 300;
+    font-size: 0.9rem;
+  }
+}
+
+.accordion-button:focus{
+  background-color: rgb(255, 247, 204);
+  box-shadow: 0 0 0 0.25rem rgb(252, 236, 145);
+  h6 {
+    color: rgb(43, 43, 8);
+  }
+}
+
+.accordion-button:not(.collapsed) {
+  color: rgb(43, 43, 8);
+  background-color: rgb(255, 247, 204);
+  box-shadow: inset 0 calc(var(--bs-accordion-border-width) * -1) 0 var(--bs-accordion-border-color);
+}
+
+@media (max-width: 515px) {
+  .img-container {
+    justify-content: center;
+    border-right: 1px solid transparent;
+    padding-right: 12px;
+  }
+  .detail-wrapper {
+    text-align: center;
+    .detail-container{
+      text-align: center;
+    }
+  }
+
+  .accordion-body {
+    width: 315px
+  }
+
 }
