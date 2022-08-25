@@ -120,7 +120,7 @@ const Landing = () => {
                         //   slideShadows: true,
                         // }}
                         // pagination={{ clickable: true }}
-                        // navigation={true}
+                        navigation={true}
                         // slidesPerView={10} 
                         // spaceBetween={10}
                         grabCursor={true}
