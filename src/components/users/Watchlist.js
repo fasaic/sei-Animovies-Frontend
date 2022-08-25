@@ -7,6 +7,7 @@ const Watchlist = () => {
   // const { userId } = useParams()
 
   const [profile, setProfile] = useState({})
+  const [watchlist, setWatchlist] = useState([])
   const [error, setError] = useState(false)
 
   useEffect(() => {
@@ -16,6 +17,7 @@ const Watchlist = () => {
           headers: { Authorization: `Bearer ${getToken()}` },
         })
         setProfile(data)
+        setWatchlist(data.likedMovies)
         // console.log(data)
       } catch (err) {
         console.log(err)
@@ -32,10 +34,10 @@ const Watchlist = () => {
   return (
     <>
       <h1>{profile.userName}'s Movie Watchlist</h1>
-      {/* {profile.likedMovies.map((mappedObject, i) => {
+      {watchlist.map((mappedObject, i) => {
         const { _id, name, posterImg } = mappedObject
         return <p key={i}>{name}</p>
-      })} */}
+      })}
     </>
   )
 }
