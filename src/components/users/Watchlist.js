@@ -56,8 +56,14 @@ const Watchlist = () => {
 
   return (
     <>
-      <div className="watchlist-wrapper min-vh-100">
-        <Container className="grid-container mb-5 mt-5 ">
+      <div className="watchlist min-vh-100">
+        <Container className="watchlist-banner mt-3">
+          <h1>{profile.userName}'s Watchlist</h1>
+          <p>
+            Add your favourite movies so that you remember to watch them later.
+          </p>
+        </Container>
+        <Container className="grid-container mb-3 mt-3 ">
           {userWatchlist.map((mappedObject, idx) => {
             const { _id, name, posterImg, releaseYear } = mappedObject
             return (
