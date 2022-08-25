@@ -18,7 +18,6 @@ import SwiperCore, {
   FreeMode,
 } from 'swiper'
 
-
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -30,7 +29,6 @@ import {
   MdOutlineSentimentSatisfied,
   MdOutlineSentimentVeryDissatisfied,
   MdOutlineSentimentVerySatisfied,
-
 } from 'react-icons/md'
 
 // Bootstrap Components
@@ -165,18 +163,20 @@ const MovieSingle = () => {
     }
   }
 
-
   const handleUpdateComment = async (event) => {
     // event.preventDefault()
     try {
       console.log(getToken())
       console.log('form data -->', formData)
-      const { data } = await axios.put(`http://localhost:4000/${movieId}/${event.target.name}`, formData, headers())
+      const { data } = await axios.put(
+        `http://localhost:4000/${movieId}/${event.target.name}`,
+        formData,
+        headers()
+      )
       // console.log('form data -->', formData)
       // setMovie(data)
       setFormData({ text: '', rating: '' })
       // window.location.reload()
-
     } catch (e) {
       setError(e)
       console.log(error)
@@ -190,18 +190,20 @@ const MovieSingle = () => {
   const handleRating = (rating) => {
     setFormData({ ...formData, rating })
   }
-  
+
   const handleDelete = async (event) => {
     console.log('comment to delete -->', event.target.name)
     try {
-      const { data } = await axios.delete(`http://localhost:4000/${movieId}/${event.target.name}`, headers())
+      const { data } = await axios.delete(
+        `http://localhost:4000/${movieId}/${event.target.name}`,
+        headers()
+      )
       window.location.reload()
     } catch (e) {
       setError(e)
       console.log(error)
     }
   }
-
 
   const handleEdit = (event) => {
     setUpdate(true)
@@ -311,31 +313,48 @@ const MovieSingle = () => {
         </Row>
 
         {/* COMMENTS SECTION */}
-        <Row className='comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center'>
-          <div className='create-comment'>
+        <Row className="comment-wrapper d-flex flex-sm-row flex-column align-content-center justify-content-center">
+          <div className="create-comment">
             <h3>Comments</h3>
-            <form className='d-flex flex-column justify-content-between' onSubmit={handleAddComment}>
-
-              <div className='d-flex align-center rate-container'>
+            <form
+              className="d-flex flex-column justify-content-between"
+              onSubmit={handleAddComment}
+            >
+              <div className="d-flex align-center rate-container">
                 <p>Rate</p>
                 {/* <label htmlFor="rate">Rate</label> */}
-                <Rating name='rate'
+                <Rating
+                  name="rate"
                   onClick={handleRating}
                   transition={true}
                   // showTooltip={true}
                   emptyColor="darkgrey"
-                  // fillColor="yellow" 
+                  // fillColor="yellow"
                   required
-                  fillColorArray={['darkred', 'darkorange', 'gold', 'darkcyan', 'darkgreen']}
+                  fillColorArray={[
+                    'darkred',
+                    'darkorange',
+                    'gold',
+                    'darkcyan',
+                    'darkgreen',
+                  ]}
                   customIcons={customIcons}
-                  ratingValue={formData.rating} /* Rating Props */ />
+                  ratingValue={formData.rating} /* Rating Props */
+                />
               </div>
 
-
-              <textarea name="text" placeholder='What do you think about this movie?' maxlength="280" onChange={handleChange} required>{formData.text}</textarea>
+              <textarea
+                name="text"
+                placeholder="What do you think about this movie?"
+                maxlength="280"
+                onChange={handleChange}
+                required
+              >
+                {formData.text}
+              </textarea>
               <input type="submit" value="Add Comment" required />
             </form>
-          </Col>
+          </div>
 
           <div className="previous-comments">
             <Swiper
@@ -378,67 +397,103 @@ const MovieSingle = () => {
               onSlideChange={() => console.log('slide change')}
             >
               {comments.map((comment) => {
-            return <SwiperSlide key={comment._id}>
-            <div className='comment-box'>
-              <div>
-                <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-                <p>{comment.userName}</p>
-                <Rating onClick={handleRating}
-                  emptyColor="darkgrey"
-                  // fillColor="yellow" 
-                  fillColorArray={['darkred', 'darkorange', 'gold', 'darkcyan', 'darkgreen']}
-                  customIcons={customIcons}
-                  ratingValue={comment.rating}
-                  allowHover={false}
-                  readonly={true} /* Rating Props */ />
-              </div>
+                return (
+                  <SwiperSlide key={comment._id}>
+                    <div className="comment-box">
+                      <div>
+                        <img
+                          src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6"
+                          alt="profile"
+                        />
+                        <p>{comment.userName}</p>
+                        <Rating
+                          onClick={handleRating}
+                          emptyColor="darkgrey"
+                          // fillColor="yellow"
+                          fillColorArray={[
+                            'darkred',
+                            'darkorange',
+                            'gold',
+                            'darkcyan',
+                            'darkgreen',
+                          ]}
+                          customIcons={customIcons}
+                          ratingValue={comment.rating}
+                          allowHover={false}
+                          readonly={true} /* Rating Props */
+                        />
+                      </div>
 
-              <div className={update && (userName === comment.userName) ? 'comment-display hide' : 'comment-display'}>
-                <div className='comment-content'>
-                  {/* <p className='mb-0 fs-'>rating</p> */}
+                      <div
+                        className={
+                          update && userName === comment.userName
+                            ? 'comment-display hide'
+                            : 'comment-display'
+                        }
+                      >
+                        <div className="comment-content">
+                          {/* <p className='mb-0 fs-'>rating</p> */}
 
-                  <div className='comment-text'>
-                    <p>{comment.text}</p>
-                  </div>
+                          <div className="comment-text">
+                            <p>{comment.text}</p>
+                          </div>
+                        </div>
 
-
-
-                </div>
-
-                <div className='buttons'>
-                  {userName === comment.userName ? <button name={comment._id} onClick={handleEdit}>Edit</button> : <></>}
-                  {userName === comment.userName ? <button name={comment._id} onClick={handleDelete}>🗑</button> : <></>}
-                </div>
-
-
-              </div>
-              {userName === comment.userName ?
-                <>
-                  <form className={update ? 'edit-comment' : 'edit-comment hide'} name={comment._id} onSubmit={handleUpdateComment}>
-                    {/* <Rating name='rate' onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /> */}
-                    <textarea name="text" placeholder={comment.text} onChange={handleChange}>{formData.text}</textarea>
-                    <div className='buttons'>
-                      <input type="submit" value="update" />
-                      <input type="button" value="Cancel" className={update ? '' : 'hide'} onClick={() => setUpdate(false)} />
+                        <div className="buttons">
+                          {userName === comment.userName ? (
+                            <button name={comment._id} onClick={handleEdit}>
+                              Edit
+                            </button>
+                          ) : (
+                            <></>
+                          )}
+                          {userName === comment.userName ? (
+                            <button name={comment._id} onClick={handleDelete}>
+                              🗑
+                            </button>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
+                      {userName === comment.userName ? (
+                        <>
+                          <form
+                            className={
+                              update ? 'edit-comment' : 'edit-comment hide'
+                            }
+                            name={comment._id}
+                            onSubmit={handleUpdateComment}
+                          >
+                            {/* <Rating name='rate' onClick={handleRating} emptyColor="white" fillColor="yellow" ratingValue={formData.rating} /> */}
+                            <textarea
+                              name="text"
+                              placeholder={comment.text}
+                              onChange={handleChange}
+                            >
+                              {formData.text}
+                            </textarea>
+                            <div className="buttons">
+                              <input type="submit" value="update" />
+                              <input
+                                type="button"
+                                value="Cancel"
+                                className={update ? '' : 'hide'}
+                                onClick={() => setUpdate(false)}
+                              />
+                            </div>
+                          </form>
+                          {/* <button className={update ? '' : 'hide'} onClick={() => setUpdate(false)}>cancel</button> */}
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
-
-
-                  </form>
-                  {/* <button className={update ? '' : 'hide'} onClick={() => setUpdate(false)}>cancel</button> */}
-                </>
-
-                :
-                <></>
-
-              }
-
-
-            </div>
-          </SwiperSlide>
-
+                  </SwiperSlide>
+                )
               })}
             </Swiper>
-          </Col>
+          </div>
         </Row>
       </Container>
     </div>

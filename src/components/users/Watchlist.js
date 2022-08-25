@@ -57,33 +57,25 @@ const Watchlist = () => {
   return (
     <>
       <h1>My Watchlist - User: {profile.userName}</h1>
-      {userWatchlist.map((mappedObject, idx) => {
-        const { _id, name, posterImg, releaseYear } = mappedObject
-        return (
-          <>
-            <div className="d-flex justify-content-around align-items-center">
-              <div className="card-container">
-                <Link to={`/movies/${_id}`}>
+      <div className="grid-container">
+        {userWatchlist.map((mappedObject, idx) => {
+          const { _id, name, posterImg, releaseYear } = mappedObject
+          return (
+            <>
+              <div className="justify-content-center align-items-center">
+                <div className="card-container">
                   <img src={posterImg} alt="poster" className="w-1" />
-                  <div className="text overlay bg-gradient">
-                    <p>
-                      {name}, {releaseYear}
-                    </p>
+                  <div className="overlay bg-gradient">
+                    <button value={_id} onClick={handleRemoveFromWatchlist}>
+                      x
+                    </button>
                   </div>
-                </Link>
+                </div>
               </div>
-              <button
-                id="watchlist-btn"
-                className="ms-3"
-                value={_id}
-                onClick={handleRemoveFromWatchlist}
-              >
-                Delete
-              </button>
-            </div>
-          </>
-        )
-      })}
+            </>
+          )
+        })}
+      </div>
     </>
   )
 }
