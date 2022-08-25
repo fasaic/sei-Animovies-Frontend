@@ -15,6 +15,7 @@ const MovieSearch = () => {
   // set tag from tag button on frontend
   const [tag, setTag] = useState([])
   const [searchValue, setSearchValue] = useState([])
+  const [clicked, setClicked] = useState('false')
   const [filters, setFilters] = useState({
     tag: 'All',
     search: ''
@@ -64,6 +65,8 @@ const MovieSearch = () => {
     }
     console.log('newObj', newObj)
     setFilters(newObj)
+    event.target.className="btn-clicked"
+
     btnColor === "whitesmoke" ? setBtnColor("wheat") : setBtnColor("whitesmoke")
     
   }
@@ -103,9 +106,11 @@ const MovieSearch = () => {
           <input type="text" className="seach" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>
         </div>
         <div>
-          {genreDummy.map((genre) => {
-            return <button onClick={handleSearch} name="tag" value={genre} style={{ backgroundColor: btnColor }}> {genre}</button>
+          {genreDummy.map((genre, index) => {
+            index += 0
+            return <button key={index} id={index} onClick={handleSearch} name="tag" value={genre} > {genre} {index}</button>
           })}
+          {/* style={{ backgroundColor: btnColor }} */}
           {/* 
         {genres.map((genre) => {
           return <button key={genre} onClick={handleSearch} name="tag" value={genre}> {genre}</button>

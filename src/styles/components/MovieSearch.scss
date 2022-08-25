@@ -13,7 +13,7 @@
       color: rgb(49, 49, 49);
     }
     button {
-      background-color:rgba(251, 251, 251, 0.9);
+      // background-color:rgba(251, 251, 251, 0.9);
       border: 1px solid rgb(211, 211, 211);
       border-radius: 10px;
       margin: 5px;
@@ -118,3 +118,6 @@
   }
 }
 
+.btn-clicked {
+  background-color: darkred;
+}
