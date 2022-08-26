@@ -329,18 +329,18 @@ const MovieSingle = () => {
                   </ul>
                 </Row>
 
-                <Row className="description-2">
+                <div className="description-2">
                   <p>Box Office: <span>{movie.boxOffice}</span></p>
                   <p>Budget: <span>{movie.budget}</span></p>
                   <p>Release Year: <span>{movie.releaseYear}</span></p>
                   <p>Run Time: <span>{movie.runtime}</span></p>
                   <p>Tags:</p>
-                  <ul key={movie.tag}>
+                  <div className='tags' key={movie.tag}>
                     {tags.map((tag) => {
-                      return <li> {tag} </li>
+                      return <button className='tags-text'> {tag} </button>
                     })}
-                  </ul>
-                </Row>
+                  </div>
+                </div>
               </div>
               {/* </Row> */}
             </Row>
