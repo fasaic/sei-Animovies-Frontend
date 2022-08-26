@@ -69,10 +69,13 @@ const PageNavBar = () => {
             </>
           ) : (
             <>
-              <Nav.Link as={Link} to="/register" className="">
+              <Nav.Link as={Link} to="/search">
+                <span className="underline ms-3"><span>🔎</span> Search</span>
+              </Nav.Link>
+              <Nav.Link as={Link} to="/register" className=" ms-3">
                 <span className="underline">Register</span>
               </Nav.Link>
-              <Nav.Link as={Link} to="/login" className="ms-5 my-sm-3">
+              <Nav.Link as={Link} to="/login" className=" ms-3">
                 <span className="underline">Login</span>
               </Nav.Link>
             </>

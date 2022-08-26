@@ -97,7 +97,7 @@
           height: 100%;
           // min-height: 500px;
           // max-height: 500px;
-          filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.227));
+          // filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.227));
 
           iframe {
             width: 100%;
@@ -120,6 +120,9 @@
 
       .description-2 {
         width: 40%;
+        p {
+          margin-top: 20px;
+        }
       }
 
       p {
@@ -133,6 +136,7 @@
         span {
           margin-left: 5px;
           color: black;
+          font-weight: normal;
         }
       }
       ul {
@@ -379,5 +383,30 @@
   button {
     border-radius: 10px;
     border: 1px solid lightgray;
+  }
+}
+
+.tags{
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  // max-height: 60%;
+  list-style: none;
+  text-align: center;
+  // min-height: 60%;
+  max-width: 100%;
+  
+  color: black;
+  button {
+    height: 30px;
+    margin: 0px;
+    margin-right: 10px;
+    // width: 20px;
+    border: 1px solid rgb(139, 0, 58);
+    border-radius: 10px;
+    // padding: 5px;
+    color: black;
+    background-color: transparent;
   }
 }
