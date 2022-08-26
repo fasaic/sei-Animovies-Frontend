@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { getText } from '../../auth/auth.js'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Bootstrap Components
 import Container from 'react-bootstrap/Container'
@@ -23,22 +26,47 @@ const Login = () => {
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      const { data } = await axios.post(
+      // const { data } = await axios.post(
+      //   'http://localhost:4000/login',
+      //   loginData
+      // )
+      const res = await axios.post(
         'http://localhost:4000/login',
         loginData
       )
+      getText(res.data.message)
+      console.log('res-->', res.data.message)
       setError(null)
-      const { token } = data
+      const { token } = res.data
       localStorage.setItem('rcf-ani-token', token)
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
       navigate('/')
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.log(error)
+      toast.error(error.response.data.message, {
+        position: "top-center",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   }
 
   return (
-    <Container className="form-wrapper">
+    <Container className="form-wrapper min-vh-100">
+      <ToastContainer />
       {/* <Row> */}
       <form onSubmit={onSubmit} className="justify-content-between">
         <h3 className="text-center">Login</h3>
@@ -51,6 +79,7 @@ const Login = () => {
             type="text"
             name="userName"
             placeholder="Username"
+            required
           />
         </Row>
         {/* Password */}
@@ -61,6 +90,7 @@ const Login = () => {
             type="password"
             name="password"
             placeholder="Password"
+            required
           />
         </Row>
         {/* Error Message */}

@@ -27,4 +27,22 @@ export const userIsAuthenticated = () => {
   const currentTime = Math.round(Date.now() / 1000)
   // console.log('Expiry date', payload.exp)
   return currentTime < payload.exp
+
+}
+
+// ! GET LOGIN TEXT 
+let loginText = ''
+export const getText = (text) => {
+  loginText = text
+  console.log('loginText-->', loginText)
+  return loginText
+}
+
+// ! DISPLAY LOGIN TEXT
+export const loginTextDisplay = () => {
+  const text = loginText
+  console.log(text)
+  return (
+    <span className='nav-logged-in'>{text}</span>
+  )
 }
