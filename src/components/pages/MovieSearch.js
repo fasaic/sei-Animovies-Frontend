@@ -40,14 +40,15 @@ const MovieSearch = () => {
 
   const genreDummy = [
     'All',
-    'kids',
     'Action',
     'Adventure',
-    'Sci-fi',
+    'Comedy',
+    'Drama',
+    'Sci-Fi',
     'Fantasy',
-    'animals',
+    // 'Superhero',
+    'Animal',
     'Anime',
-    'Crime',
   ]
 
   const navigate = useNavigate()
@@ -102,11 +103,11 @@ const MovieSearch = () => {
   return (
     <Container className="search-wrapper min-vh-100">
       <div className='title-container'>
-        <h1>MovieSearch</h1>
+        <h1>Browse Animations</h1>
         <div className='search-container text-md-center text-end my-md-0 my-3'>
           <input type="text" className="seach" placeholder="Search..." onChange={handleSearch} name="search" value={filters.search}></input>
         </div>
-        <div>
+        <div className='button-container'>
           {genreDummy.map((genre, index) => {
 
             return <button className={activeBtn === genre ? "btn-clicked": "" } onClick={handleSearch} name="tag" value={genre} > {genre}</button>

@@ -28,14 +28,15 @@ const Landing = () => {
   const [filteredMovies, setFilteredMovies] = useState([])
 
   const genres = [
-    // 'All',
     'Action',
     'Adventure',
-    // 'Sci-fi',
+    'Comedy',
+    'Drama',
+    'Sci-Fi',
     'Fantasy',
-    // 'Animals',
+    // 'Superhero',
+    'Animal',
     'Anime',
-    'Crime',
   ]
   let filteredArray = []
   useEffect(() => {

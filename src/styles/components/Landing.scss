@@ -2,9 +2,9 @@
   padding: 30px;
   .landing-header {
     min-height: 350px;
-    background-color: rgb(242, 241, 241);
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(4px 4px 15px rgba(0, 0, 0, 0.2));
     margin-bottom: 20px;
     .landing-title{
       margin: 40px;
@@ -49,14 +49,14 @@
 }
 
 .movie-carousel {
-  background-color: rgb(242, 241, 241);
+  background-color: rgb(255, 255, 255);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   // max-width: 1300px;
   margin: 0 auto;
-  filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(4px 4px 15px rgba(0, 0, 0, 0.2));
   margin-bottom: 20px;
   padding: 10px;
   height: 250px;
