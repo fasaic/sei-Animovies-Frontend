@@ -23,7 +23,7 @@
 
     .info-wrapper {
       padding: 20px;
-      background-color: rgb(248, 248, 248);
+      background-color: rgb(255, 255, 255);
       border-radius: 0px 0px 15px 15px;
       filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.227));
 
@@ -126,16 +126,22 @@
         margin: 0px;
         font-weight: bold;
         margin-top: 10px;
+        color:rgb(36, 98, 98);
 
         // padding: 0px;
-        ul {
-          margin: 0px;
-        }
 
-        span,
-        li {
-          font-weight: normal;
+        span {
+          margin-left: 5px;
+          color: black;
         }
+      }
+      ul {
+        margin-left: 30px;
+      }
+
+      span,
+      li {
+        font-weight: normal;
       }
     }
 
@@ -144,7 +150,7 @@
       padding: 20px;
       background-color: rgb(244, 244, 244);
       border-radius: 15px;
-      filter: drop-shadow(4px 4px 30px rgba(0, 0, 0, 0.227));
+      filter: drop-shadow(4px 4px 15px rgba(0, 0, 0, 0.227));
       min-height: 415px;
       h3 {
         // font-size: 2rem;
@@ -183,11 +189,13 @@
             margin-right: 5px;
           }
         }
+
         input {
-          background-color: rgb(144, 200, 200);
+          background-color: rgb(147, 65, 80);
           border: 1px solid transparent;
           border-radius: 10px;
-          width: 200px;
+          width: 150px;
+          color: white;
         }
 
       }
