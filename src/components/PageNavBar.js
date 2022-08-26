@@ -1,6 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { userIsAuthenticated } from '../auth/auth.js'
+import { userIsAuthenticated, loginTextDisplay } from '../auth/auth.js'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Import React Bootstrap Components
 import NavBar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
@@ -19,31 +21,44 @@ const PageNavBar = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('rcf-ani-token')
+    toast.info('Goodbye! :(', {
+      position: "top-left",
+      autoClose: 1200,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     navigate('/')
     console.log('USER HAS LOGGED OUT')
   }
 
   return (
-    <NavBar expand="md">
+    <NavBar classname='nav' expand="md">
+      <ToastContainer />
       <Container>
         <NavBar.Brand as={Link} to="/">
-          🎥 <span className="logo fw-bold">AMDB</span>
+          🎥 <span className="logo fw-bold">ANIMOVIES</span>
         </NavBar.Brand>
-
+        {userIsAuthenticated() && loginTextDisplay()}
         <NavBar.Toggle aria-controls="basic-navbar-nav"></NavBar.Toggle>
         <NavBar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <div className="search-container text-md-center text-end my-md-0 my-3">
+          {/* <div className="search-container text-md-center text-end my-md-0 my-3">
             <input
               type="text"
               className="seach"
               placeholder="Search..."
               onKeyUp={handleClick}
             ></input>
-          </div>
+          </div> */}
           {userIsAuthenticated() ? (
             <>
+              <Nav.Link onClick={handleLogout} as={Link} to="/">
+                <span className="underline ms-3"><span>🔎</span> Search</span>
+              </Nav.Link>
               <Nav.Link as={Link} to="/watchlist">
-                <span className="underline">Watchlist</span>
+                <span className="underline ms-3">Watchlist</span>
               </Nav.Link>
               <Nav.Link as={Link} to="/profile">
                 <span className="underline ms-3">Profile</span>

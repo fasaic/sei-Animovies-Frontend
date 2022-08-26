@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Bootstrap Components
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -36,21 +39,35 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      const { data } = await axios.post(
+      // const { data } = await axios.post(
+      //   'http://localhost:4000/register',
+      //   formData
+      // )
+      const res = await axios.post(
         'http://localhost:4000/register',
         formData
       )
-      setTokenToLocalStorage(data.token)
+      setTokenToLocalStorage(res.data.token)
       navigate('/login')
       console.log(formData)
     } catch (error) {
+      toast.error(error.response.data.message, {
+        position: "top-center",
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log('error ->', error.response.data.errors)
       if (error.response.data.errors) setErrors(error.response.data.errors)
     }
   }
 
   return (
-    <Container className="form-wrapper">
+    <Container className="form-wrapper min-vh-100">
+      <ToastContainer />
       {/* <Row> */}
       <form onSubmit={handleSubmit} className="justify-content-between">
         <h3 className="text-center">Register</h3>
@@ -63,6 +80,7 @@ const Register = () => {
             name="userName"
             value={formData.userName}
             placeholder="Username"
+            required
           />
         </Row>
 
@@ -75,6 +93,7 @@ const Register = () => {
             name="email"
             value={formData.email}
             placeholder="Email"
+            required
           />
         </Row>
         {/* Password */}
@@ -86,6 +105,7 @@ const Register = () => {
             name="password"
             value={formData.password}
             placeholder="Password"
+            required
           />
         </Row>
 
@@ -98,6 +118,7 @@ const Register = () => {
             name="confirmPassword"
             value={formData.confirm}
             placeholder="Confirm Password"
+            required
           />
         </Row>
         {/* Error Message */}
