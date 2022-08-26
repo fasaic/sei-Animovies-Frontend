@@ -54,7 +54,7 @@ const PageNavBar = () => {
           </div> */}
           {userIsAuthenticated() ? (
             <>
-              <Nav.Link onClick={handleLogout} as={Link} to="/">
+              <Nav.Link as={Link} to="/search">
                 <span className="underline ms-3"><span>🔎</span> Search</span>
               </Nav.Link>
               <Nav.Link as={Link} to="/watchlist">
