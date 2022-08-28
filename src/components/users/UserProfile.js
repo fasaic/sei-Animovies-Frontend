@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Accordion from 'react-bootstrap/Accordion'
 import Carousel from 'react-bootstrap/Carousel'
 import { getToken } from '../../auth/auth.js'
+import { API_URL } from '../../config'
 
 import { Rating } from 'react-simple-star-rating'
 const UserProfile = () => {
@@ -27,7 +28,7 @@ const UserProfile = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/profile`, {
+        const { data } = await axios.get(`${API_URL}/profile`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         })
         console.log(data)
@@ -44,12 +45,6 @@ const UserProfile = () => {
   console.log('comment->', comments)
   return (
     <Container className="profile-wrapper mb-5 min-vh-100">
-      {/* <Row className="profile-container profile-banner mt-3">
-        <h1>{profile.userName}'s profile</h1>
-        <p>
-          Add your favourite movies so that you remember to watch them later.
-        </p>
-      </Row> */}
       <Row className=" profile-container about-wrapper align-items-center flex-row-reverse">
         <Col className="detail-wrapper col-md-8">
 

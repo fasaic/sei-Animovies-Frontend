@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Rating } from 'react-simple-star-rating'
 import axios from 'axios'
+import { API_URL } from '../../config'
+import userImg from '../../images/user.png'
+import loaderImg from '../../images/loader.gif'
 
 import YoutubeEmbed from '../YoutubeEmbed'
 import StarRating from '../Ratings'
@@ -72,7 +75,7 @@ const MovieSingle = () => {
     const getData = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/movies/${movieId}`
+          `${API_URL}/movies/${movieId}`
         )
         setMovie(data)
         setStills(data.stills)
@@ -89,7 +92,7 @@ const MovieSingle = () => {
     }
     getData()
   }, [])
-  const [message, setMessage]= useState('')
+  const [message, setMessage] = useState('')
   const [name, setName] = useState('')
   const [profile, setProfile] = useState({})
   const [userName, setUserName] = useState('')
@@ -101,7 +104,7 @@ const MovieSingle = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/profile`, {
+        const { data } = await axios.get(`${API_URL}/profile`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         })
         // console.log(data)
@@ -129,7 +132,7 @@ const MovieSingle = () => {
     try {
       console.log(`ADD THIS TO WATCHLIST ->`, movieId)
       const req = await axios.post(
-        `http://localhost:4000/watchlist/add/${movieId}`,
+        `${API_URL}/watchlist/add/${movieId}`,
         movieId,
         headers()
       )
@@ -145,13 +148,9 @@ const MovieSingle = () => {
     try {
       console.log(getToken())
       console.log('form data -->', formData)
-      // const { data } = await axios.post(
-      //   `http://localhost:4000/${movieId}/comment`,
-      //   formData,
-      //   headers()
-      // )
+
       const res = await axios.post(
-        `http://localhost:4000/${movieId}/comment`,
+        `${API_URL}/${movieId}/comment`,
         formData,
         headers()
       )
@@ -165,7 +164,7 @@ const MovieSingle = () => {
     } catch (error) {
       console.log('error message-->', error.response.data.message)
       // setError(e.data.message)
-      toast(error.response.data.message, {
+      toast.error(error.response.data.message, {
         position: "bottom-center",
         autoClose: 1200,
         hideProgressBar: false,
@@ -180,25 +179,13 @@ const MovieSingle = () => {
     }
   }
 
-  // useEffect(()=> {
-  //   toast(message, {
-  //     position: "bottom-center",
-  //     autoClose: 1200,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //   })
-  // }, [message])
-
   const handleUpdateComment = async (event) => {
     // event.preventDefault()
     try {
       console.log(getToken())
       console.log('form data -->', formData)
       const { data } = await axios.put(
-        `http://localhost:4000/${movieId}/${event.target.name}`,
+        `${API_URL}/${movieId}/${event.target.name}`,
         formData,
         headers()
       )
@@ -224,7 +211,7 @@ const MovieSingle = () => {
     console.log('comment to delete -->', event.target.name)
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/${movieId}/${event.target.name}`,
+        `${API_URL}/${movieId}/${event.target.name}`,
         headers()
       )
       window.location.reload()
@@ -259,13 +246,13 @@ const MovieSingle = () => {
           <Container className="content-wrapper">
             {/* INFO WRAPPER */}
             <Row className="info-wrapper">
-              <div className="title d-flex justify-content-between">
-                <div>
+              <Row className="title d-flex justify-content-between ">
+                <Col className='col-md-3'>
                   <h2>{movie.name}</h2>
-                </div>
+                </Col>
 
-                <div className="d-flex rating-wrapper">
-                  <button onClick={handleAddToWatchlist} className="text-center rating">
+                <Col className="d-flex rating-wrapper col-md-9 justify-content-end">
+                  <button onClick={handleAddToWatchlist} className="text-center watchlist-add ">
                     <p className="m-0">ADD TO WATCHLIST</p>
                   </button>
                   <div className="ms-4 text-center rating">
@@ -292,8 +279,8 @@ const MovieSingle = () => {
                       readonly={true} /* Rating Props */
                     />
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
               <hr />
 
               {/* MOVIE POSTER + TRAILERS */}
@@ -387,7 +374,7 @@ const MovieSingle = () => {
                     {formData.text}
                   </textarea>
                   <input type="submit" value="Add Comment" required />
-                  <ToastContainer />
+                  {/* <ToastContainer /> */}
                 </form>
               </div>
 
@@ -437,7 +424,7 @@ const MovieSingle = () => {
                         <div className="comment-box">
                           <div>
                             <img
-                              src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6"
+                              src={userImg}
                               alt="profile"
                             />
                             <p>{comment.userName}</p>
@@ -519,7 +506,6 @@ const MovieSingle = () => {
                                   />
                                 </div>
                               </form>
-                              {/* <button className={update ? '' : 'hide'} onClick={() => setUpdate(false)}>cancel</button> */}
                             </>
                           ) : (
                             <></>
@@ -534,9 +520,7 @@ const MovieSingle = () => {
           </Container>
         </>
         :
-        <h3>
-          {error ? 'error' : 'loading'}
-        </h3>
+        <h1 className='text-center'>{error ? 'error' : <img className="w-25" src={loaderImg} alt='loader'/>}</h1>
       }
 
 
@@ -548,29 +532,3 @@ const MovieSingle = () => {
 
 export default MovieSingle
 
-{
-  /* <SwiperSlide>
-<div className='comment-box'>
-  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940434.png?token=exp=1661093836~hmac=53c7b85d5270b8e5412efe3718a0e6b6" alt="profile" />
-  <p>User2</p>
-  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-</div>
-</SwiperSlide>
-<SwiperSlide>
-<div className='comment-box'>
-  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940417.png?token=exp=1661093836~hmac=dd1a5f3d7c7cb1933fca64033a4f6174" alt="profile" />
-  <p>User3</p>
-  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-</div>
-</SwiperSlide>
-<SwiperSlide>
-<div className='comment-box'>
-  <img src="https://cdn-icons.flaticon.com/png/512/3940/premium/3940433.png?token=exp=1661093836~hmac=eead3a5f4749d0f14dada1688a26ca7d" alt="profile" />
-  <p>User4</p>
-  <CDBRating iconFaces fillClassName="text-black" iconRegular />
-  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies faucibus mi, a suscipit velit blandit eget. Sed eu convallis lacus. Ut varius purus sit amet ex iaculis, ut dictum orci pulvinar</span>
-</div>
-</SwiperSlide> */
-}

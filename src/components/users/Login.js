@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { getText } from '../../auth/auth.js'
 import { ToastContainer, toast } from 'react-toastify';
+import { API_URL } from '../../config'
 import 'react-toastify/dist/ReactToastify.css';
 
 // Bootstrap Components
@@ -26,12 +27,9 @@ const Login = () => {
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      // const { data } = await axios.post(
-      //   'http://localhost:4000/login',
-      //   loginData
-      // )
+
       const res = await axios.post(
-        'http://localhost:4000/login',
+        `${API_URL}/login`,
         loginData
       )
       getText(res.data.message)

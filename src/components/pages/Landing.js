@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import { API_URL } from '../../config'
+import loaderImg from '../../images/loader.gif'
 
 // Components
 import MovieCard from '../MovieCard'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //! Components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,11 +25,6 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, Mousewheel, FreeMode, EffectC
 const Landing = () => {
   const [movies, setMovies] = useState([])
   const [error, setError] = useState('')
-  const [directors, setDirectors] = useState([])
-  const [cast, setCast] = useState([])
-  const [tags, setTags] = useState([])
-  const [imdb, setImdb] = useState('')
-  const [release, setRelease] = useState('')
   const [filteredMovies, setFilteredMovies] = useState([])
 
   const genres = [
@@ -34,7 +34,6 @@ const Landing = () => {
     'Drama',
     'Sci-Fi',
     'Fantasy',
-    // 'Superhero',
     'Animal',
     'Anime',
   ]
@@ -42,7 +41,7 @@ const Landing = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/movies')
+        const { data } = await axios.get(`${API_URL}/movies`)
 
         genres.forEach((genre) => {
           filteredArray[genre] = data.filter((data) =>
@@ -53,11 +52,6 @@ const Landing = () => {
         })
 
         setMovies(data)
-        setDirectors(data.directors)
-        setCast(data.cast)
-        setTags(data.tags)
-        setImdb(data.imdbRating)
-        setRelease(data.releaseYear)
         // console.log(data)
       } catch (error) {
         setError(error)
@@ -67,14 +61,11 @@ const Landing = () => {
     getData()
   }, [])
 
-  console.log('filteredMovies-->', filteredMovies)
-  console.log('entries-->', Object.entries(filteredMovies))
-
-
   return (
     <Container className='landing-wrapper w-md-80'>
+      <ToastContainer />
       <Row className='landing-header'>
-        <Col className='landing-title col-5'>
+        <Col className='landing-title'>
           <div>
             <h1>Welcome to</h1>
             <h1 className='red'>ANIMOVIES</h1>
@@ -88,20 +79,14 @@ const Landing = () => {
           <button>Browse Animovies</button>
           </Link>
         </Col>
-        <Col>
 
-        </Col>
       </Row>
       <Row>
         {movies.length > 0 ? (
           <>
 
             {Object.entries(filteredMovies).map((movie) => {
-              // const { name, id, tags, imdbRating } = movie
-              // const img = movie.posterImg
-              // console.log('movie->', movie)
-              // console.log('movie array->', movie[1])
-              // console.log('first movie->', (movie[1])[0].name)
+  
               return (
                 <>
                   <Row className='movie-carousel'>
@@ -113,15 +98,8 @@ const Landing = () => {
                       <Swiper
                         modules={[Navigation, Pagination, Scrollbar, A11y, Mousewheel, EffectCoverflow]}
                         mousewheel={true}
-                        // coverflowEffect={{
-                        //   rotate: 50,
-                        //   stretch: 0,
-                        //   depth: 100,
-                        //   modifier: 1,
-                        //   slideShadows: true,
-                        // }}
                         // pagination={{ clickable: true }}
-                        navigation={true}
+                        // navigation={true}
                         // slidesPerView={10} 
                         // spaceBetween={10}
                         grabCursor={true}
@@ -149,7 +127,7 @@ const Landing = () => {
                           },
                           1024: {
                             slidesPerView: 8,
-                            // spaceBetween: 30,
+        
                             navigation: true
                           },
                         }}
@@ -180,17 +158,6 @@ const Landing = () => {
                       </Swiper>
                     </div>
                   </Row>
-                  {/* <Row className='movie-carousel'>
-                    <h3>{movie[0]}</h3>
-                    {movie[1].map(movie => {
-                      return <p>{movie.name}</p>
-                    })}
-                    {movie[1].map(movie => {
-                      return <p>{movie.name}</p>
-                    })}
-                  </Row> */}
-
-
                 </>
               )
             })}
@@ -198,7 +165,7 @@ const Landing = () => {
 
           </>
         ) : (
-          <h1>{error ? 'error' : 'loading'}</h1>
+          <h1 className='text-center'>{error ? 'error' : <img className="w-25" src={loaderImg} alt='loader'/>}</h1>
         )}
       </Row>
     </Container>

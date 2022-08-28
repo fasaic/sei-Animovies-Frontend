@@ -41,11 +41,11 @@
         }
 
         .rating-wrapper {
-          width: 30%;
+          // max-width: 30%;
         }
 
         .rating {
-          width: 50%;
+          // width: 50%;
           border-radius: 10px;
           background-color: #FFEB89;
           box-shadow: 2px 2px 0px #EBD35D;
@@ -59,7 +59,7 @@
         }
 
         .rating:first-of-type {
-          width: 50%;
+          width: 90px;
         }
       }
 
@@ -408,5 +408,20 @@
     // padding: 5px;
     color: black;
     background-color: transparent;
+  }
+}
+
+.watchlist-add {
+  border: 1px solid transparent;
+  background-color: #fff2b1;
+  box-shadow: 2px 2px 0px #EBD35D;
+  padding: 5px;
+  width: 90px;
+  border-radius: 15px;
+  p {
+    font-size: 0.9rem;
+  }
+  &:hover{
+    background-color: #f9e16b;
   }
 }

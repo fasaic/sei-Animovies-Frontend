@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+import { API_URL } from '../../config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,6 +14,7 @@ const Register = () => {
   const navigate = useNavigate()
   //! State
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     userName: '',
     password: '',
@@ -20,6 +22,7 @@ const Register = () => {
   })
 
   const [errors, setErrors] = useState({
+    name: { message: '' },
     email: { message: '' },
     userName: { message: '' },
     password: { message: '' },
@@ -39,12 +42,8 @@ const Register = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      // const { data } = await axios.post(
-      //   'http://localhost:4000/register',
-      //   formData
-      // )
       const res = await axios.post(
-        'http://localhost:4000/register',
+        `${API_URL}/register`,
         formData
       )
       setTokenToLocalStorage(res.data.token)
@@ -71,6 +70,17 @@ const Register = () => {
       {/* <Row> */}
       <form onSubmit={handleSubmit} className="justify-content-between">
         <h3 className="text-center">Register</h3>
+        <Row>
+          <label htmlFor="name">Name</label>
+          <input
+            onInput={handleChange}
+            type="text"
+            name="name"
+            value={formData.name}
+            placeholder="Name"
+            required
+          />
+        </Row>
         {/* Email */}
         <Row>
           <label htmlFor="userName">Username</label>

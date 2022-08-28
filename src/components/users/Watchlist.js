@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { getToken } from '../../auth/auth.js'
+import { API_URL } from '../../config'
 
 // ! Components
 import { Link } from 'react-router-dom'
@@ -19,7 +20,7 @@ const Watchlist = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/watchlist`, {
+        const { data } = await axios.get(`${API_URL}/watchlist`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         })
         setProfile(data)
@@ -42,7 +43,7 @@ const Watchlist = () => {
       console.log('DELETE MOVIE ->', event.target.value)
       const movieId = event.target.value
       const { data } = await axios.delete(
-        `http://localhost:4000/watchlist/remove/${movieId}`,
+        `${API_URL}/watchlist/remove/${movieId}`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
