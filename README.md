@@ -28,7 +28,7 @@ Here is the link to my deployed version of Animovies : https://animovies-ga.netl
 ## Overview
 Similar to IMDB, Animovies is a platform, a community, a platform, and library for not any movie lovers but specifically for those who love animated movies. Once users enter the site, they can view and search movies by genres or name, click into each movie to view its information along with the average rating, image stills and trailer. They can register and login to leave a comment, edit and delete their comment, rate a movie, and add it to their watchlist. The users can view a list of movies and comments they made on their personal profile page.
 
-##Planning 
+## Planning 
 The first day of planning this project was to discuss what kind of application we were going to build. We tried to brainstorm a few ideas and topics that all three of us would be interested in, and were excited by the idea of a movie review platform. However, we wanted our project to be differentiated from the ones that are already existing, and the thought of having a fun-themed platform with only animated movies that we all love sparked this project.
 
 After we have decided on making an application for animated movies, we discussed page components, functionalities of the app, and the design of backend and frontend. We created a wireframe of the app pages and also the initial structure of the backend.
